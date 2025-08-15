@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI修复验证</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-link {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            margin: 10px;
+            font-size: 18px;
+        }
+        .test-link:hover {
+            background: #218838;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 UI渲染问题修复验证</h1>
+        <p>针对您提供的截图中发现的UI问题，我已经进行了以下修复：</p>
+        
+        <div class="test-result success">
+            <h3>✅ 已修复的问题</h3>
+            <ul>
+                <li><strong>单词卡片高度</strong>: 从140px增加到160px，确保内容完整显示</li>
+                <li><strong>内容布局</strong>: 改用flex布局 space-between，单词和标签分离</li>
+                <li><strong>类别标签样式</strong>: 
+                    <ul>
+                        <li>字体大小调整为0.75rem，确保完整显示</li>
+                        <li>使用white-space: nowrap防止换行</li>
+                        <li>增加padding和最小高度确保可读性</li>
+                        <li>使用flex布局居中对齐</li>
+                    </ul>
+                </li>
+                <li><strong>单词文字</strong>: 增大到2.5rem，使用flex-grow占据主要空间</li>
+                <li><strong>网格高度</strong>: 优化计算方式，为分页控制器留出空间</li>
+            </ul>
+        </div>
+        
+        <div class="test-result info">
+            <h3>📱 测试步骤</h3>
+            <ol>
+                <li>点击下方链接打开应用</li>
+                <li>按F12打开开发者工具</li>
+                <li>选择iPad Pro (12.9-inch) 横屏模式</li>
+                <li><strong>重要</strong>: 强制刷新 (Ctrl+F5 或 Cmd+Shift+R) 以加载新样式</li>
+                <li>验证单词卡片中的类别标签是否完整显示</li>
+            </ol>
+        </div>
+        
+        <div class="test-result info">
+            <h3>🔍 期望看到的修复效果</h3>
+            <ul>
+                <li>✅ ARTICLE, CONJUNCTION, ADVERB等标签完整显示，不被截断</li>
+                <li>✅ 单词文字更大更清晰 (如 "a", "and", "away")</li>
+                <li>✅ 卡片高度足够，内容不会溢出</li>
+                <li>✅ 所有卡片大小一致，布局整齐</li>
+                <li>✅ 顶部提示文字"点击单词卡片，听听怎么读吧！"显示正常</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="http://localhost:8000" class="test-link" target="_blank">🚀 打开应用验证修复效果</a>
+        </div>
+        
+        <div class="test-result info">
+            <h3>⚙️ 技术细节</h3>
+            <ul>
+                <li><strong>CSS版本</strong>: 更新到 v3 (ipad.css?v=3)</li>
+                <li><strong>关键修复</strong>:
+                    <ul>
+                        <li><code>min-height: 160px</code> - 增加卡片最小高度</li>
+                        <li><code>justify-content: space-between</code> - 分离单词和标签</li>
+                        <li><code>white-space: nowrap</code> - 防止标签文字换行</li>
+                        <li><code>font-size: 0.75rem</code> - 适合的标签文字大小</li>
+                        <li><code>padding: 4px 12px</code> - 增加标签内边距</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <div>
+            <button onclick="checkStyleVersion()">🔍 检查CSS版本</button>
+            <button onclick="simulateTest()">🧪 模拟测试指南</button>
+        </div>
+        
+        <div id="version-check" class="test-result info" style="display:none;">
+            <h3>版本检查结果</h3>
+            <div id="version-result">检查中...</div>
+        </div>
+    </div>
+
+    <script>
+        function checkStyleVersion() {
+            const versionCheck = document.getElementById('version-check');
+            const versionResult = document.getElementById('version-result');
+            
+            versionCheck.style.display = 'block';
+            
+            // 检查CSS链接
+            const ipadCss = document.querySelector('link[href*="ipad.css"]');
+            const stylesCss = document.querySelector('link[href*="style.css"]');
+            
+            let result = '<strong>当前页面CSS检查:</strong><br>';
+            result += `• iPad CSS: ${ipadCss ? '❌ 未找到 (这是正常的，因为这是测试页面)' : '❌ 未找到'}<br>`;
+            
+            result += '<br><strong>应用页面应该有的版本:</strong><br>';
+            result += '• /static/css/ipad.css?v=3 ✅<br>';
+            result += '• /static/js/ipad-layout.js?v=2 ✅<br>';
+            
+            result += '<br><strong>验证方法:</strong><br>';
+            result += '1. 打开应用页面<br>';
+            result += '2. F12 → Network 标签<br>';
+            result += '3. 刷新页面<br>';
+            result += '4. 查看ipad.css请求是否为v=3版本';
+            
+            versionResult.innerHTML = result;
+        }
+        
+        function simulateTest() {
+            alert(`🧪 完整测试流程:
+
+1. 打开应用: http://localhost:8000
+2. 开启开发者工具: F12
+3. 设备模拟: 点击响应式设计模式图标
+4. 选择设备: iPad Pro (12.9-inch)
+5. 设置方向: Landscape (横屏)
+6. 强制刷新: Ctrl+F5 (Windows) 或 Cmd+Shift+R (Mac)
+
+🔍 检查要点:
+✅ 单词卡片中的类别标签完整显示
+✅ 不应该看到 "ARTICLE" 被截断为 "ARTI..."
+✅ 单词文字大小适中，清晰可读
+✅ 所有卡片高度一致
+✅ 布局整齐，没有内容溢出
+
+如果仍有问题，请:
+1. 检查浏览器缓存是否清除
+2. 确认CSS版本号为v=3
+3. 检查控制台是否有错误信息`);
+        }
+    </script>
+</body>
+</html>

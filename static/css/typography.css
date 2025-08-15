@@ -1,0 +1,254 @@
+/* 
+ * Typography & Contrast Optimization
+ * 文字排版与对比度优化
+ * 
+ * 基于专家评审的文字渲染优化方案
+ * 确保所有文字达到 WCAG AA 标准对比度（≥4.5:1）
+ */
+
+/* ===== 颜色系统优化 ===== */
+
+:root {
+  /* 品牌色与文本安全色分离策略 */
+  
+  /* 原品牌色（保持用于背景/装饰，不变更现有设计） */
+  /* --primary-color, --secondary-color, --accent-color 在 style.css 中已定义 */
+  
+  /* 新增：文字专用安全色（AA合规，≥4.5:1对比度） */
+  --text-primary: #d63031;    /* 深红，替代原primary用于文字，4.85:1对比度 */
+  --text-secondary: #00695c;  /* 深青绿，替代原secondary用于文字，5.63:1对比度 */
+  --text-accent: #c62828;     /* 深红橙，替代原accent用于文字，5.44:1对比度 */
+  
+  /* 增强现有的文字颜色（保持现有命名，优化数值） */
+  --text-dark: #2d3436;       /* AAA级别，12.68:1对比度，保持不变 */
+  --text-medium: #636e72;     /* 中等灰色，5.24:1对比度，轻微加深 */
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: more) { 
+  :root { 
+    --text-primary: #b71c1c;   /* 高对比度：更深的红色 */
+    --text-secondary: #004d40; /* 高对比度：更深的青色 */
+    --text-accent: #e65100;    /* 高对比度：橙色替代黄色，更安全 */
+  } 
+}
+
+/* Windows 高对比度模式：优先允许系统接管颜色 */
+@media (forced-colors: active) { 
+  .word-text, 
+  .word-text-ipad,
+  .word-category,
+  .word-category-ipad { 
+    forced-color-adjust: none; 
+  } 
+}
+
+/* 减少动效模式：移除所有动画和过渡 */
+@media (prefers-reduced-motion: reduce) { 
+  * { 
+    animation: none !important; 
+    transition: none !important; 
+  } 
+}
+
+/* ===== 排版基线系统 ===== */
+
+:root {
+  /* 响应式字体大小系统 */
+  --font-size-body: clamp(17px, 1.6vw, 18px);      /* 正文≥17px确保可读性 */
+  --font-size-h1: clamp(22px, 2.8vw, 28px);        /* 标题≥22px */
+  --font-size-button: clamp(16px, 1.6vw, 18px);    /* 按钮文字 */
+  --font-size-category: clamp(12px, 1.2vw, 14px);  /* 分类标签 */
+  
+  /* 行高系统 */
+  --line-height-body: 1.5;
+  --line-height-heading: 1.25;
+  --line-height-compact: 1.3;
+  
+  /* 字体堆栈：渐进式增强 */
+  --app-font-stack: 'Fredoka One', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+/* ===== 核心文字样式优化 ===== */
+
+/* word-text 类优化：使用安全的文字颜色 */
+.word-text {
+  color: var(--text-dark);        /* 默认使用最安全的深色 */
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: 700;
+}
+
+/* word-category 类优化：确保分类标签清晰可读 */
+.word-category {
+  color: var(--text-medium);      /* 使用加深后的中灰色 */
+  font-size: var(--font-size-category);
+  line-height: var(--line-height-compact);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* iPad版本类的对应优化 */
+.word-text-ipad {
+  color: var(--text-dark);
+  font-weight: 700;
+  font-family: var(--app-font-stack);
+}
+
+.word-category-ipad {
+  color: var(--text-medium);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ===== 文字颜色增强选项 ===== */
+
+/* 可选的彩色文字类：仅在合适的背景上使用 */
+.word-text.is-primary {
+  color: var(--text-primary);     /* 安全的红色文字 */
+}
+
+.word-text.is-secondary {
+  color: var(--text-secondary);   /* 安全的青色文字 */
+}
+
+.word-text.is-accent {
+  color: var(--text-accent);      /* 安全的橙色文字 */
+}
+
+/* ===== 复杂背景处理策略 ===== */
+
+/* 文字在复杂背景上的处理：使用遮罩或面板确保可读性 */
+.text-on-complex-bg {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-on-gradient {
+  background: linear-gradient(to bottom, 
+    rgba(255, 255, 255, 0.95), 
+    rgba(255, 255, 255, 0.85));
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+/* 禁止白字直接压在图片/渐变上的处理 */
+.avoid-direct-text-on-image {
+  position: relative;
+}
+
+.avoid-direct-text-on-image::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);  /* 半透明遮罩确保文字对比度 */
+  z-index: 1;
+}
+
+.avoid-direct-text-on-image .text-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+
+/* ===== 字体加载优化 ===== */
+
+/* 基础字体回退：确保在自定义字体加载前可读 */
+body {
+  font-family: var(--app-font-stack);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+/* 字体加载状态管理 */
+.fonts-loading .word-text,
+.fonts-loading .word-text-ipad {
+  /* 使用系统字体确保立即可读 */
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.fonts-loaded .word-text,
+.fonts-loaded .word-text-ipad {
+  /* 自定义字体加载成功后应用 */
+  font-family: var(--app-font-stack);
+}
+
+.fonts-fallback .word-text,
+.fonts-fallback .word-text-ipad {
+  /* 自定义字体加载失败时的回退 */
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+}
+
+/* ===== 响应式优化 ===== */
+
+/* iPad 横屏优化：确保触控友好的字体大小 */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .word-text,
+  .word-text-ipad {
+    font-size: clamp(18px, 2vw, 24px);  /* iPad横屏下稍大的字体 */
+  }
+  
+  .word-category,
+  .word-category-ipad {
+    font-size: clamp(13px, 1.3vw, 16px);
+  }
+}
+
+/* 小屏设备：确保最小可读字体 */
+@media (max-width: 480px) {
+  .word-text {
+    font-size: max(17px, 4.5vw);  /* 确保不小于17px */
+  }
+  
+  .word-category {
+    font-size: max(12px, 3vw);
+  }
+}
+
+/* ===== 可访问性增强 ===== */
+
+/* 支持用户自定义字体大小缩放 */
+html {
+  font-size: 100%;  /* 尊重用户浏览器设置 */
+}
+
+/* 高分辨率屏幕优化：不强制使用text-shadow */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .word-text,
+  .word-text-ipad {
+    /* 高DPI屏幕上依靠浏览器的字体渲染优化 */
+    /* 避免使用可能导致模糊的渲染属性 */
+  }
+}
+
+/* ===== 兼容性保障 ===== */
+
+/* 渐进式增强：基础浏览器支持 */
+.word-text,
+.word-category {
+  color: #2d3436;  /* 硬编码的安全颜色作为回退 */
+  font-family: Arial, sans-serif;  /* 系统字体回退 */
+}
+
+/* 现代浏览器增强 */
+@supports (color: var(--text-dark)) {
+  .word-text {
+    color: var(--text-dark);
+  }
+  
+  .word-category {
+    color: var(--text-medium);
+  }
+}
+
+/* CSS变量支持检测 */
+@supports (font-family: var(--app-font-stack)) {
+  .fonts-loaded .word-text,
+  .fonts-loaded .word-text-ipad {
+    font-family: var(--app-font-stack);
+  }
+}

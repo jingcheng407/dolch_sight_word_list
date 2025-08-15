@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug - Dolch Words</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .word-card { 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            margin: 5px; 
+            display: inline-block; 
+            min-width: 80px;
+            text-align: center;
+        }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>词汇调试页面</h1>
+    <button onclick="loadWords()">加载词汇</button>
+    <div id="output"></div>
+    
+    <script>
+        async function loadWords() {
+            const output = document.getElementById('output');
+            try {
+                output.innerHTML = '<p>加载中...</p>';
+                
+                const response = await fetch('/api/words');
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const words = await response.json();
+                console.log('Loaded words:', words.length, words[0]);
+                
+                if (!words || words.length === 0) {
+                    output.innerHTML = '<p class="error">没有词汇数据</p>';
+                    return;
+                }
+                
+                const html = words.map(word => {
+                    if (!word || typeof word.word === 'undefined') {
+                        return '<div class="word-card error">ERROR</div>';
+                    }
+                    return `<div class="word-card">
+                        <div><strong>${word.word}</strong></div>
+                        <div>${word.category}</div>
+                    </div>`;
+                }).join('');
+                
+                output.innerHTML = `<p>成功加载 ${words.length} 个词汇：</p>${html}`;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.innerHTML = `<p class="error">加载失败: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

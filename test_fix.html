@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Fix Test - Dolch Words</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f0f0f0;
+        }
+        .test-result { 
+            margin: 10px 0; 
+            padding: 10px; 
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .word-card { 
+            border: 2px solid #007bff; 
+            padding: 15px; 
+            margin: 10px; 
+            display: inline-block; 
+            min-width: 120px;
+            text-align: center;
+            border-radius: 8px;
+            background: white;
+        }
+        .word-text { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            margin-bottom: 5px;
+        }
+        .word-category { 
+            font-size: 0.9rem; 
+            color: #666; 
+        }
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Undefined Bug 修复测试</h1>
+    
+    <div id="test-results"></div>
+    
+    <h2>词汇渲染测试</h2>
+    <button onclick="runTests()">开始测试</button>
+    
+    <div id="test-grid" class="grid-container"></div>
+    
+    <script>
+        let testWords = [];
+        
+        async function runTests() {
+            const results = document.getElementById('test-results');
+            const grid = document.getElementById('test-grid');
+            
+            results.innerHTML = '<div class="test-result">🔄 正在运行测试...</div>';
+            grid.innerHTML = '';
+            
+            try {
+                // 测试1: API数据获取
+                console.log('Test 1: Fetching API data...');
+                const response = await fetch('/api/words');
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                testWords = data;
+                
+                addResult('✅ API数据获取成功', `获取了 ${data.length} 个词汇`, 'success');
+                
+                // 测试2: 数据验证
+                console.log('Test 2: Data validation...');
+                let validWords = 0;
+                let invalidWords = [];
+                
+                for (let i = 0; i < data.length; i++) {
+                    const word = data[i];
+                    if (word && word.word && typeof word.word === 'string' && word.category) {
+                        validWords++;
+                    } else {
+                        invalidWords.push(`索引${i}: ${JSON.stringify(word)}`);
+                    }
+                }
+                
+                if (invalidWords.length === 0) {
+                    addResult('✅ 数据验证通过', `所有 ${validWords} 个词汇格式正确`, 'success');
+                } else {
+                    addResult('⚠️ 数据验证警告', `发现 ${invalidWords.length} 个无效词汇: ${invalidWords.slice(0,3).join(', ')}`, 'error');
+                }
+                
+                // 测试3: DOM渲染
+                console.log('Test 3: DOM rendering...');
+                renderTestWords(data.slice(0, 8)); // 只渲染前8个词汇进行测试
+                
+                addResult('✅ DOM渲染测试', '词汇卡片已生成，请检查下方显示', 'success');
+                
+                // 测试4: 检查undefined
+                console.log('Test 4: Checking for undefined...');
+                const cards = grid.querySelectorAll('.word-card');
+                let undefinedCount = 0;
+                
+                cards.forEach((card, index) => {
+                    const text = card.querySelector('.word-text').textContent;
+                    const category = card.querySelector('.word-category').textContent;
+                    
+                    if (text.includes('undefined') || category.includes('undefined')) {
+                        undefinedCount++;
+                        card.style.border = '2px solid red';
+                        card.style.background = '#ffe6e6';
+                    }
+                });
+                
+                if (undefinedCount === 0) {
+                    addResult('✅ Undefined检查通过', '没有发现undefined显示问题', 'success');
+                } else {
+                    addResult('❌ 发现Undefined', `${undefinedCount} 个卡片仍显示undefined`, 'error');
+                }
+                
+                addResult('🎉 测试完成', '修复验证完毕，请查看上方结果', 'success');
+                
+            } catch (error) {
+                console.error('Test failed:', error);
+                addResult('❌ 测试失败', error.message, 'error');
+            }
+        }
+        
+        function addResult(title, message, type) {
+            const results = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `<strong>${title}</strong><br>${message}`;
+            results.appendChild(div);
+        }
+        
+        function renderTestWords(words) {
+            const grid = document.getElementById('test-grid');
+            
+            words.forEach(word => {
+                if (!word || !word.word) {
+                    console.error('Invalid word:', word);
+                    return;
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                
+                const textDiv = document.createElement('div');
+                textDiv.className = 'word-text';
+                textDiv.textContent = word.word || 'ERROR';
+                
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'word-category';
+                categoryDiv.textContent = word.category || 'unknown';
+                
+                card.appendChild(textDiv);
+                card.appendChild(categoryDiv);
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

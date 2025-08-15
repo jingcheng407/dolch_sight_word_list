@@ -1,0 +1,248 @@
+{
+  "pre_primer": {
+    "level": "Pre-primer",
+    "description": "40个最基础的常见词汇，适合学前儿童学习",
+    "words": [
+      {
+        "word": "a",
+        "pronunciation": "/eɪ/",
+        "example": "I have a cat.",
+        "category": "article"
+      },
+      {
+        "word": "and",
+        "pronunciation": "/ænd/",
+        "example": "Red and blue",
+        "category": "conjunction"
+      },
+      {
+        "word": "away",
+        "pronunciation": "/əˈweɪ/",
+        "example": "Go away",
+        "category": "adverb"
+      },
+      {
+        "word": "big",
+        "pronunciation": "/bɪɡ/",
+        "example": "A big dog",
+        "category": "adjective"
+      },
+      {
+        "word": "blue",
+        "pronunciation": "/bluː/",
+        "example": "Blue sky",
+        "category": "adjective"
+      },
+      {
+        "word": "can",
+        "pronunciation": "/kæn/",
+        "example": "I can run",
+        "category": "verb"
+      },
+      {
+        "word": "come",
+        "pronunciation": "/kʌm/",
+        "example": "Come here",
+        "category": "verb"
+      },
+      {
+        "word": "down",
+        "pronunciation": "/daʊn/",
+        "example": "Go down",
+        "category": "adverb"
+      },
+      {
+        "word": "find",
+        "pronunciation": "/faɪnd/",
+        "example": "Find the ball",
+        "category": "verb"
+      },
+      {
+        "word": "for",
+        "pronunciation": "/fɔːr/",
+        "example": "For you",
+        "category": "preposition"
+      },
+      {
+        "word": "funny",
+        "pronunciation": "/ˈfʌni/",
+        "example": "A funny joke",
+        "category": "adjective"
+      },
+      {
+        "word": "go",
+        "pronunciation": "/ɡoʊ/",
+        "example": "Go home",
+        "category": "verb"
+      },
+      {
+        "word": "help",
+        "pronunciation": "/help/",
+        "example": "Help me",
+        "category": "verb"
+      },
+      {
+        "word": "here",
+        "pronunciation": "/hɪr/",
+        "example": "Come here",
+        "category": "adverb"
+      },
+      {
+        "word": "I",
+        "pronunciation": "/aɪ/",
+        "example": "I am happy",
+        "category": "pronoun"
+      },
+      {
+        "word": "in",
+        "pronunciation": "/ɪn/",
+        "example": "In the box",
+        "category": "preposition"
+      },
+      {
+        "word": "is",
+        "pronunciation": "/ɪz/",
+        "example": "This is big",
+        "category": "verb"
+      },
+      {
+        "word": "it",
+        "pronunciation": "/ɪt/",
+        "example": "It is red",
+        "category": "pronoun"
+      },
+      {
+        "word": "jump",
+        "pronunciation": "/dʒʌmp/",
+        "example": "Jump high",
+        "category": "verb"
+      },
+      {
+        "word": "little",
+        "pronunciation": "/ˈlɪtəl/",
+        "example": "A little cat",
+        "category": "adjective"
+      },
+      {
+        "word": "look",
+        "pronunciation": "/lʊk/",
+        "example": "Look at me",
+        "category": "verb"
+      },
+      {
+        "word": "make",
+        "pronunciation": "/meɪk/",
+        "example": "Make a cake",
+        "category": "verb"
+      },
+      {
+        "word": "me",
+        "pronunciation": "/miː/",
+        "example": "Help me",
+        "category": "pronoun"
+      },
+      {
+        "word": "my",
+        "pronunciation": "/maɪ/",
+        "example": "My dog",
+        "category": "pronoun"
+      },
+      {
+        "word": "not",
+        "pronunciation": "/nɑːt/",
+        "example": "Not here",
+        "category": "adverb"
+      },
+      {
+        "word": "one",
+        "pronunciation": "/wʌn/",
+        "example": "One apple",
+        "category": "number"
+      },
+      {
+        "word": "play",
+        "pronunciation": "/pleɪ/",
+        "example": "Play with me",
+        "category": "verb"
+      },
+      {
+        "word": "red",
+        "pronunciation": "/red/",
+        "example": "Red ball",
+        "category": "adjective"
+      },
+      {
+        "word": "run",
+        "pronunciation": "/rʌn/",
+        "example": "Run fast",
+        "category": "verb"
+      },
+      {
+        "word": "said",
+        "pronunciation": "/sed/",
+        "example": "He said yes",
+        "category": "verb"
+      },
+      {
+        "word": "see",
+        "pronunciation": "/siː/",
+        "example": "See the bird",
+        "category": "verb"
+      },
+      {
+        "word": "the",
+        "pronunciation": "/ðə/",
+        "example": "The cat",
+        "category": "article"
+      },
+      {
+        "word": "three",
+        "pronunciation": "/θriː/",
+        "example": "Three dogs",
+        "category": "number"
+      },
+      {
+        "word": "to",
+        "pronunciation": "/tuː/",
+        "example": "Go to school",
+        "category": "preposition"
+      },
+      {
+        "word": "two",
+        "pronunciation": "/tuː/",
+        "example": "Two cats",
+        "category": "number"
+      },
+      {
+        "word": "up",
+        "pronunciation": "/ʌp/",
+        "example": "Look up",
+        "category": "adverb"
+      },
+      {
+        "word": "we",
+        "pronunciation": "/wiː/",
+        "example": "We are friends",
+        "category": "pronoun"
+      },
+      {
+        "word": "where",
+        "pronunciation": "/wer/",
+        "example": "Where are you?",
+        "category": "adverb"
+      },
+      {
+        "word": "yellow",
+        "pronunciation": "/ˈjeloʊ/",
+        "example": "Yellow sun",
+        "category": "adjective"
+      },
+      {
+        "word": "you",
+        "pronunciation": "/juː/",
+        "example": "You are nice",
+        "category": "pronoun"
+      }
+    ]
+  }
+}

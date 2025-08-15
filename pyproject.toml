@@ -1,0 +1,11 @@
+[project]
+name = "dolch-sight-word-list"
+version = "0.1.0"
+description = "Interactive Dolch Sight Words learning web app for Pre-primer level"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "jinja2>=3.1.2",
+    "python-multipart>=0.0.6"
+]

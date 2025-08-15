@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 快乐学单词 - 我的第一本英语词汇书</title>
+    <!-- CSS引入顺序：基础 → 排版/对比度 → 响应式 → 设备定制 -->
+    <link rel="stylesheet" href="/static/css/style.css?v=5">
+    <link rel="stylesheet" href="/static/css/typography.css?v=1">
+    <link rel="stylesheet" href="/static/css/responsive.css?v=1">
+    <link rel="stylesheet" href="/static/css/ipad.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-decoration">
+                <span class="rainbow-star">⭐</span>
+                <span class="rainbow-heart">💖</span>
+                <span class="rainbow-star">⭐</span>
+            </div>
+            <h1 class="kids-title">
+                <span class="emoji-big">🌈</span> 
+                快乐学单词 
+                <span class="emoji-big">🎈</span>
+            </h1>
+            <p class="subtitle-kids">和小熊一起学英语！</p>
+            
+            <!-- 可爱的进度熊 -->
+            <div class="progress-bear">
+                <div class="bear-face">🐻</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="progress-text">0/40 ⭐</span>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-tabs-kids">
+            <button class="tab-btn-kids active" data-tab="learn">
+                <div class="tab-icon">🎯</div>
+                <span>学单词</span>
+            </button>
+            <button class="tab-btn-kids" data-tab="practice">
+                <div class="tab-icon">🎮</div>
+                <span>玩游戏</span>
+            </button>
+            <button class="tab-btn-kids" data-tab="quiz">
+                <div class="tab-icon">🧩</div>
+                <span>小测试</span>
+            </button>
+            <button class="tab-btn-kids" data-tab="stats">
+                <div class="tab-icon">🏆</div>
+                <span>我的奖杯</span>
+            </button>
+        </nav>
+
+        <!-- 学习模式 -->
+        <div id="learn" class="tab-content active">
+            <div class="welcome-message">
+                <span class="welcome-emoji">👋</span>
+                <p>点击单词卡片，听听怎么读吧！</p>
+            </div>
+            
+            <div class="learn-controls-kids">
+                <button id="shuffle-btn" class="control-btn-kids">
+                    <span class="btn-emoji">🎲</span>
+                    <span>打乱顺序</span>
+                </button>
+                <button id="category-filter" class="control-btn-kids">
+                    <span class="btn-emoji">🌈</span>
+                    <span>按类型</span>
+                </button>
+                <button id="audio-toggle" class="control-btn-kids">
+                    <span class="btn-emoji">🔊</span>
+                    <span>开关声音</span>
+                </button>
+            </div>
+            
+            <div class="words-grid-kids" id="words-grid">
+                <!-- 单词卡片将在这里生成 -->
+            </div>
+        </div>
+
+        <!-- 练习模式 -->
+        <div id="practice" class="tab-content">
+            <div class="practice-welcome">
+                <div class="practice-mascot">🐰</div>
+                <h2>和小兔子一起玩游戏！</h2>
+            </div>
+            
+            <div class="practice-modes-kids">
+                <button class="mode-btn-kids" data-mode="flashcard">
+                    <div class="mode-icon">🎴</div>
+                    <h3>翻卡片</h3>
+                    <p>翻翻看，学单词！</p>
+                </button>
+            </div>
+            
+            <div id="practice-area" class="practice-area-kids">
+                <!-- 练习内容将在这里生成 -->
+            </div>
+        </div>
+
+        <!-- 测验模式 -->
+        <div id="quiz" class="tab-content">
+            <div class="quiz-welcome">
+                <div class="quiz-mascot">🦁</div>
+                <h2>小狮子考考你！</h2>
+                <p>选出正确的答案吧！</p>
+            </div>
+            
+            <div class="quiz-setup-kids">
+                <div class="quiz-options">
+                    <div class="quiz-difficulty easy" data-count="5">
+                        <div class="difficulty-icon">😊</div>
+                        <h3>简单</h3>
+                        <p>5道题</p>
+                    </div>
+                    <div class="quiz-difficulty medium selected" data-count="8">
+                        <div class="difficulty-icon">😃</div>
+                        <h3>普通</h3>
+                        <p>8道题</p>
+                    </div>
+                    <div class="quiz-difficulty hard" data-count="10">
+                        <div class="difficulty-icon">🤗</div>
+                        <h3>挑战</h3>
+                        <p>10道题</p>
+                    </div>
+                </div>
+                <button id="start-quiz" class="start-btn-kids">
+                    <span class="btn-emoji">🚀</span>
+                    开始答题
+                </button>
+            </div>
+            
+            <div id="quiz-area" class="quiz-area" style="display:none;">
+                <div class="quiz-header">
+                    <span class="question-counter" id="question-counter">1/10</span>
+                    <span class="quiz-score" id="quiz-score">得分: 0</span>
+                </div>
+                
+                <div class="question-card" id="question-card">
+                    <!-- 测验问题将在这里生成 -->
+                </div>
+                
+                <div class="quiz-controls">
+                    <button id="next-question" class="next-btn" disabled>下一题</button>
+                </div>
+            </div>
+            
+            <div id="quiz-results" class="quiz-results" style="display:none;">
+                <!-- 测验结果将在这里显示 -->
+            </div>
+        </div>
+
+        <!-- 统计模式 -->
+        <div id="stats" class="tab-content">
+            <div class="stats-welcome">
+                <div class="stats-mascot">🎉</div>
+                <h2>我的学习宝箱</h2>
+                <p>看看你获得了多少星星！</p>
+            </div>
+            
+            <div class="stats-container-kids">
+                <div class="stats-card-kids">
+                    <div class="stats-header">
+                        <span class="stats-emoji">📊</span>
+                        <h3>学习进度</h3>
+                    </div>
+                    <div class="stats-content" id="word-stats">
+                        <!-- 统计信息将在这里生成 -->
+                    </div>
+                </div>
+                
+                <div class="stats-card-kids">
+                    <div class="stats-header">
+                        <span class="stats-emoji">🏆</span>
+                        <h3>我的奖杯</h3>
+                    </div>
+                    <div class="achievements-kids" id="achievements">
+                        <!-- 成就信息将在这里生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 单词详情弹窗 -->
+    <div id="word-modal" class="modal-kids">
+        <div class="modal-content-kids">
+            <span class="close-kids">✖️</span>
+            <div class="modal-decoration">
+                <span class="modal-star">⭐</span>
+                <span class="modal-star">✨</span>
+                <span class="modal-star">⭐</span>
+            </div>
+            
+            <div class="word-detail-kids">
+                <h2 class="word-title-kids" id="modal-word">word</h2>
+                <div class="word-info-kids">
+                    <p class="pronunciation-kids" id="modal-pronunciation">/pronunciation/</p>
+                    <div class="category-badge" id="modal-category">类型</div>
+                    <p class="example-kids" id="modal-example">例句在这里</p>
+                </div>
+                <div class="word-actions-kids">
+                    <button class="speak-btn-kids" id="modal-speak">
+                        <span class="btn-emoji">🔊</span>
+                        听发音
+                    </button>
+                    <button class="practice-btn-kids" id="modal-practice">
+                        <span class="btn-emoji">🎮</span>
+                        去练习
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载中动画 -->
+    <div id="loading" class="loading-kids" style="display:none;">
+        <div class="loading-animation">
+            <div class="loading-bear">🐻</div>
+            <div class="loading-dots">
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+        </div>
+        <p class="loading-text">小熊正在准备单词卡片...</p>
+    </div>
+
+    <script src="/static/js/responsive-grid.js?v=1"></script>
+    <script src="/static/js/ipad-layout.js?v=3"></script>
+    <script src="/static/js/app.js?v=6"></script>
+</body>
+</html>

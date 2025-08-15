@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 响应式UI多分辨率测试系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .test-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .test-header h1 {
+            color: #5A67D8;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .resolution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .resolution-test {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .resolution-test:hover {
+            border-color: #5A67D8;
+            transform: translateY(-2px);
+        }
+        
+        .resolution-test h3 {
+            color: #4C51BF;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .resolution-info {
+            background: #F7FAFC;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #4A5568;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .debug-info {
+            background: #1A202C;
+            color: #E2E8F0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+        
+        .current-viewport {
+            background: linear-gradient(135deg, #48BB78, #38A169);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            background: #EDF2F7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-item.active {
+            background: #C6F6D5;
+            border-left-color: #48BB78;
+        }
+        
+        .instructions {
+            background: #FFF5B4;
+            border: 2px solid #F6E05E;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            color: #D69E2E;
+            margin-bottom: 10px;
+        }
+        
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            background: #D69E2E;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🎯 响应式UI多分辨率测试系统</h1>
+        <p>测试应用在不同设备和分辨率下的显示效果</p>
+    </div>
+
+    <div class="test-container">
+        <div class="instructions">
+            <h3>📋 测试说明</h3>
+            <ul class="step-list">
+                <li>点击下方任意分辨率按钮打开应用测试窗口</li>
+                <li>测试窗口会自动调整到对应的设备尺寸</li>
+                <li>观察UI元素的布局、字体大小、间距等是否合适</li>
+                <li>检查单词卡片、侧边栏、按钮是否完整显示</li>
+                <li>测试触控友好性（按钮大小至少44px）</li>
+            </ul>
+        </div>
+
+        <div class="current-viewport">
+            <h3>🖥️ 当前浏览器视窗</h3>
+            <div id="current-info">
+                宽度: <span id="current-width">-</span>px | 
+                高度: <span id="current-height">-</span>px | 
+                比例: <span id="current-ratio">-</span> | 
+                设备类型: <span id="current-device">-</span>
+            </div>
+        </div>
+
+        <div class="feature-grid" id="feature-status">
+            <div class="feature-item" id="feat-responsive">
+                📱 响应式网格
+            </div>
+            <div class="feature-item" id="feat-typography">
+                🔤 动态字体
+            </div>
+            <div class="feature-item" id="feat-spacing">
+                📏 智能间距
+            </div>
+            <div class="feature-item" id="feat-touch">
+                👆 触控友好
+            </div>
+        </div>
+
+        <div class="resolution-grid">
+            <!-- iPhone SE -->
+            <div class="resolution-test">
+                <h3>📱 iPhone SE</h3>
+                <div class="resolution-info">
+                    375 × 667px (1x)<br>
+                    竖屏小屏手机，单栏布局<br>
+                    触控优先，大按钮设计
+                </div>
+                <button class="test-button" onclick="openTest(375, 667, 'iPhone SE')">
+                    测试 iPhone SE
+                </button>
+                <button class="test-button" onclick="openTest(667, 375, 'iPhone SE 横屏')">
+                    测试横屏模式
+                </button>
+                <div class="debug-info" id="debug-iphone-se"></div>
+            </div>
+
+            <!-- iPhone 12 Pro -->
+            <div class="resolution-test">
+                <h3>📱 iPhone 12 Pro</h3>
+                <div class="resolution-info">
+                    390 × 844px (3x)<br>
+                    现代手机标准尺寸<br>
+                    高分辨率显示测试
+                </div>
+                <button class="test-button" onclick="openTest(390, 844, 'iPhone 12 Pro')">
+                    测试 iPhone 12 Pro
+                </button>
+                <button class="test-button" onclick="openTest(844, 390, 'iPhone 12 Pro 横屏')">
+                    测试横屏模式
+                </button>
+                <div class="debug-info" id="debug-iphone-12"></div>
+            </div>
+
+            <!-- iPad -->
+            <div class="resolution-test">
+                <h3>📱 iPad (9代)</h3>
+                <div class="resolution-info">
+                    820 × 1180px (2x)<br>
+                    平板竖屏，双栏布局<br>
+                    中等密度屏幕
+                </div>
+                <button class="test-button" onclick="openTest(820, 1180, 'iPad 竖屏')">
+                    测试 iPad 竖屏
+                </button>
+                <button class="test-button" onclick="openTest(1180, 820, 'iPad 横屏')">
+                    测试 iPad 横屏 ⭐
+                </button>
+                <div class="debug-info" id="debug-ipad"></div>
+            </div>
+
+            <!-- iPad Pro 12.9" -->
+            <div class="resolution-test">
+                <h3>📱 iPad Pro 12.9"</h3>
+                <div class="resolution-info">
+                    1024 × 1366px (2x)<br>
+                    大屏平板，主要目标设备<br>
+                    最优化显示效果
+                </div>
+                <button class="test-button" onclick="openTest(1024, 1366, 'iPad Pro 竖屏')">
+                    测试 iPad Pro 竖屏
+                </button>
+                <button class="test-button" onclick="openTest(1366, 1024, 'iPad Pro 横屏')">
+                    测试 iPad Pro 横屏 ⭐⭐
+                </button>
+                <div class="debug-info" id="debug-ipad-pro"></div>
+            </div>
+
+            <!-- MacBook Air -->
+            <div class="resolution-test">
+                <h3>💻 MacBook Air</h3>
+                <div class="resolution-info">
+                    1440 × 900px (2x)<br>
+                    笔记本电脑标准分辨率<br>
+                    桌面浏览器环境
+                </div>
+                <button class="test-button" onclick="openTest(1440, 900, 'MacBook Air')">
+                    测试 MacBook Air
+                </button>
+                <div class="debug-info" id="debug-macbook"></div>
+            </div>
+
+            <!-- 4K 显示器 -->
+            <div class="resolution-test">
+                <h3>🖥️ 4K 显示器</h3>
+                <div class="resolution-info">
+                    3840 × 2160px<br>
+                    超高分辨率大屏<br>
+                    极限尺寸测试
+                </div>
+                <button class="test-button" onclick="openTest(1920, 1080, '4K 显示器 (50%)')">
+                    测试 4K (缩放50%)
+                </button>
+                <div class="debug-info" id="debug-4k"></div>
+            </div>
+
+            <!-- 超宽屏 -->
+            <div class="resolution-test">
+                <h3>🖥️ 超宽屏显示器</h3>
+                <div class="resolution-info">
+                    2560 × 1080px<br>
+                    21:9 超宽比例<br>
+                    极端宽高比测试
+                </div>
+                <button class="test-button" onclick="openTest(2560, 1080, '超宽屏显示器')">
+                    测试超宽屏
+                </button>
+                <div class="debug-info" id="debug-ultrawide"></div>
+            </div>
+
+            <!-- 自定义尺寸 -->
+            <div class="resolution-test">
+                <h3>🎛️ 自定义尺寸</h3>
+                <div class="resolution-info">
+                    <input type="number" id="custom-width" placeholder="宽度" style="width: 80px; margin: 2px;">
+                    × 
+                    <input type="number" id="custom-height" placeholder="高度" style="width: 80px; margin: 2px;">
+                    px
+                </div>
+                <button class="test-button" onclick="openCustomTest()">
+                    测试自定义尺寸
+                </button>
+                <div class="debug-info" id="debug-custom"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #E2E8F0; border-radius: 10px;">
+            <h3>🔍 实时监控</h3>
+            <p>打开任何测试窗口后，这里会显示响应式系统的实时状态信息</p>
+            <div id="live-monitor" style="font-family: monospace; font-size: 0.9rem; margin-top: 10px; white-space: pre-wrap;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 更新当前视窗信息
+        function updateCurrentViewport() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const ratio = (width / height).toFixed(2);
+            
+            document.getElementById('current-width').textContent = width;
+            document.getElementById('current-height').textContent = height;
+            document.getElementById('current-ratio').textContent = ratio;
+            
+            // 设备类型检测
+            let deviceType = 'Desktop';
+            if (width < 480) deviceType = 'Mobile Portrait';
+            else if (width < 768) deviceType = 'Mobile Landscape';
+            else if (width < 1024) deviceType = 'Tablet';
+            else if (width < 1440) deviceType = 'Desktop';
+            else deviceType = 'Large Desktop';
+            
+            document.getElementById('current-device').textContent = deviceType;
+            
+            // 更新功能状态
+            updateFeatureStatus(width, height);
+        }
+        
+        function updateFeatureStatus(width, height) {
+            const features = {
+                'feat-responsive': width >= 480, // 响应式网格
+                'feat-typography': true, // 动态字体始终启用
+                'feat-spacing': true, // 智能间距始终启用
+                'feat-touch': 'ontouchstart' in window || navigator.maxTouchPoints > 0 // 触控支持
+            };
+            
+            Object.keys(features).forEach(id => {
+                const element = document.getElementById(id);
+                if (features[id]) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+        }
+        
+        let testWindows = [];
+        
+        function openTest(width, height, deviceName) {
+            // 计算窗口位置（屏幕中央）
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+            
+            // 窗口特性
+            const features = [
+                `width=${width}`,
+                `height=${height}`,
+                `left=${left}`,
+                `top=${top}`,
+                'menubar=no',
+                'toolbar=no',
+                'location=no',
+                'status=no',
+                'scrollbars=yes',
+                'resizable=yes'
+            ].join(',');
+            
+            // 打开测试窗口
+            const testWindow = window.open('http://localhost:8000', `test_${deviceName.replace(/\s+/g, '_')}`, features);
+            
+            if (testWindow) {
+                testWindows.push(testWindow);
+                
+                // 监控窗口状态
+                testWindow.addEventListener('load', () => {
+                    monitorTestWindow(testWindow, deviceName, width, height);
+                });
+                
+                // 显示调试信息
+                const debugId = 'debug-' + deviceName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                const debugElement = document.getElementById(debugId);
+                if (debugElement) {
+                    debugElement.textContent = `✅ 测试窗口已打开\n尺寸: ${width} × ${height}px\n位置: (${left}, ${top})\n状态: 加载中...`;
+                }
+            } else {
+                alert('无法打开测试窗口，请检查弹窗拦截设置');
+            }
+        }
+        
+        function openCustomTest() {
+            const width = parseInt(document.getElementById('custom-width').value) || 800;
+            const height = parseInt(document.getElementById('custom-height').value) || 600;
+            openTest(width, height, `Custom ${width}x${height}`);
+        }
+        
+        function monitorTestWindow(testWindow, deviceName, width, height) {
+            const monitor = document.getElementById('live-monitor');
+            
+            const updateMonitor = () => {
+                if (testWindow.closed) {
+                    monitor.textContent += `\n❌ ${deviceName} 窗口已关闭`;
+                    return;
+                }
+                
+                try {
+                    const doc = testWindow.document;
+                    const gridManager = testWindow.ResponsiveGridManager;
+                    
+                    let info = `📱 ${deviceName} (${width}×${height})\n`;
+                    info += `实际视窗: ${testWindow.innerWidth}×${testWindow.innerHeight}\n`;
+                    
+                    if (gridManager && testWindow.app && testWindow.app.gridManager) {
+                        const debugInfo = testWindow.app.gridManager.getDebugInfo();
+                        info += `网格: ${debugInfo.currentGrid.cols}×${debugInfo.currentGrid.rows}\n`;
+                        info += `每页物品: ${debugInfo.itemsPerPage}\n`;
+                        info += `设备类型: ${debugInfo.deviceType}\n`;
+                        info += `宽高比: ${debugInfo.aspectRatio.toFixed(2)}\n`;
+                    }
+                    
+                    monitor.textContent = info + '\n' + '='.repeat(40) + '\n';
+                    
+                } catch (e) {
+                    console.log('Cross-origin access blocked, this is expected');
+                }
+            };
+            
+            // 初始更新
+            setTimeout(updateMonitor, 1000);
+            
+            // 定期更新
+            const interval = setInterval(() => {
+                if (testWindow.closed) {
+                    clearInterval(interval);
+                    return;
+                }
+                updateMonitor();
+            }, 2000);
+        }
+        
+        // 清理所有测试窗口
+        function closeAllTests() {
+            testWindows.forEach(win => {
+                if (!win.closed) {
+                    win.close();
+                }
+            });
+            testWindows = [];
+            document.getElementById('live-monitor').textContent = '所有测试窗口已关闭';
+        }
+        
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            updateCurrentViewport();
+            
+            // 添加清理按钮
+            const cleanupBtn = document.createElement('button');
+            cleanupBtn.textContent = '🔄 关闭所有测试窗口';
+            cleanupBtn.className = 'test-button';
+            cleanupBtn.onclick = closeAllTests;
+            cleanupBtn.style.background = 'linear-gradient(135deg, #e53e3e, #c53030)';
+            cleanupBtn.style.marginTop = '20px';
+            document.querySelector('.test-container').appendChild(cleanupBtn);
+        });
+        
+        // 监听窗口大小变化
+        window.addEventListener('resize', updateCurrentViewport);
+        
+        // 页面卸载时清理
+        window.addEventListener('beforeunload', closeAllTests);
+    </script>
+</body>
+</html>
