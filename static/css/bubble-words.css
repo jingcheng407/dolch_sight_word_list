@@ -75,22 +75,91 @@
 .ipad-layout.bubble-mode .main-header {
   flex: 0 0 auto !important;
   margin-right: 0 !important;
-  padding: 10px 20px !important;
+  padding: 5px 15px !important;
   background: rgba(255, 255, 255, 0.95) !important;
+  /* 缩小头部尺寸 */
+  min-height: auto !important;
 }
 
+/* 气泡模式下缩小头部标题 */
+.ipad-layout.bubble-mode .main-title {
+  font-size: 20px !important;
+  margin: 5px 0 !important;
+}
+
+.ipad-layout.bubble-mode .main-header p {
+  font-size: 12px !important;
+  margin: 2px 0 !important;
+}
+
+/* 气泡模式下隐藏等级信息区域 */
+.ipad-layout.bubble-mode #current-level-info {
+  display: none !important;
+}
+
+/* 气泡模式下的内容区域和气泡容器优化 */
 .ipad-layout.bubble-mode .content-area {
   flex: 1 !important;
   height: auto !important;
   max-height: none !important;
   width: 100% !important;
   max-width: 100% !important;
+  padding-top: 5px !important;
 }
 
-/* 气泡模式下，让气泡容器占满更多空间 */
 .ipad-layout.bubble-mode .bubble-words-container {
   min-width: 80vw !important;
   max-width: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 气泡模式下将进度信息固定到右上角，避免遮挡气泡 */
+.ipad-layout.bubble-mode .bubble-words-container .progress-indicator {
+  position: fixed !important;
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+  transform: none !important;
+  z-index: 1000 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 12px !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  width: auto !important;
+  max-width: 180px !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* 压缩进度统计显示 - 右上角紧凑布局 */
+.ipad-layout.bubble-mode .bubble-words-container .progress-stats {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 4px !important;
+  font-size: 9px !important;
+  margin-top: 3px !important;
+}
+
+.ipad-layout.bubble-mode .bubble-words-container .progress-title {
+  font-size: 11px !important;
+  margin-bottom: 2px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.ipad-layout.bubble-mode .bubble-words-container .progress-stat-card {
+  font-size: 8px !important;
+  padding: 2px 4px !important;
+  min-width: auto !important;
+  text-align: center !important;
+}
+
+/* 让气泡网格从更靠上的位置开始，并为右上角进度指示器预留空间 */
+.ipad-layout.bubble-mode .words-grid-bubbles {
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+  padding-right: 200px !important; /* 为右上角进度指示器预留空间 */
 }
 
 /* 添加浮动的装饰气泡背景 */
