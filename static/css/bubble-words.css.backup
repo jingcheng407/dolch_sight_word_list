@@ -3,21 +3,6 @@
  * 隐藏单词类型，使用气泡图案增加趣味性
  */
 
-/* ===== 强制修复：气泡容器左对齐 ===== */
-
-#bubble-container {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  float: none !important;
-  position: absolute !important;
-  left: 0 !important;
-  top: 50px !important;
-  right: auto !important;
-  z-index: 1000 !important;
-}
-
 /* ===== 气泡容器系统 ===== */
 
 .bubble-words-container {
@@ -35,62 +20,6 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-}
-
-/* ===== iPad横屏布局修复：气泡探索占满整屏 ===== */
-
-/* 气泡探索模式下，突破iPad布局限制 */
-.ipad-layout body:has(.bubble-words-container) .main-container {
-  flex-direction: column !important;
-  max-width: none !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.ipad-layout body:has(.bubble-words-container) .main-header {
-  flex: 0 0 auto !important;
-  margin-right: 0 !important;
-  padding: 10px 20px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-}
-
-.ipad-layout body:has(.bubble-words-container) .content-area {
-  flex: 1 !important;
-  height: auto !important;
-  max-height: none !important;
-}
-
-/* 备用方案：如果:has()不支持，使用body class */
-.ipad-layout.bubble-mode .main-container {
-  flex-direction: column !important;
-  max-width: none !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.ipad-layout.bubble-mode .main-header {
-  flex: 0 0 auto !important;
-  margin-right: 0 !important;
-  padding: 10px 20px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-}
-
-.ipad-layout.bubble-mode .content-area {
-  flex: 1 !important;
-  height: auto !important;
-  max-height: none !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* 气泡模式下，让气泡容器占满更多空间 */
-.ipad-layout.bubble-mode .bubble-words-container {
-  min-width: 80vw !important;
-  max-width: none !important;
 }
 
 /* 添加浮动的装饰气泡背景 */
@@ -129,17 +58,12 @@
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  /* 修改原因：实现左对齐布局，避免气泡分散显示（从 space-around 改为 flex-start） */
-  justify-content: flex-start !important;
+  justify-content: space-around;
   align-items: flex-start;
   gap: 5px;
   padding: 3px;
   flex: 1;
-  /* 性能优化：防止横向滚动，改善滚动体验 */
   overflow-y: auto;
-  overflow-x: hidden;
-  /* 渐进增强：在支持的浏览器中稳定滚动条，避免内容抖动 */
-  scrollbar-gutter: stable;
   -webkit-overflow-scrolling: touch;
   width: 100%;
   box-sizing: border-box;
@@ -510,16 +434,10 @@
   }
 }
 
-/* 关键修复：聚焦模式下保持左边界不跳动
- * 问题：原 padding: 20px 10px 会将左边界从 3px 改为 20px
- * 方案：固定 padding-left: 3px 与常态一致，仅调整其他方向
- * 效果：用户感觉左锚点稳定，消除"右移感" */
+/* 聚焦模式下的网格调整 */
 .bubble-words-container.bubble-focused .words-grid-bubbles {
-  padding-left: 3px;          /* 保持与常态一致，避免左边界跳动 */
-  padding-right: 10px;        /* 保持原有右侧间距 */
-  padding-top: 20px;          /* 保持原有顶部间距 */
-  padding-bottom: 20px;       /* 保持原有底部间距 */
-  gap: 15px;                  /* 保持原有间距 */
+  padding: 20px 10px;
+  gap: 15px;
 }
 
 /* 移动设备上的聚焦效果优化 */
@@ -529,11 +447,8 @@
   }
   
   .bubble-words-container.bubble-focused .words-grid-bubbles {
-    padding-left: 3px;        /* 保持与常态一致 */
-    padding-right: 8px;       /* 保持原有右侧间距 */
-    padding-top: 15px;        /* 保持原有顶部间距 */
-    padding-bottom: 15px;     /* 保持原有底部间距 */
-    gap: 12px;                /* 保持原有间距 */
+    padding: 15px 8px;
+    gap: 12px;
   }
   
   @keyframes bubblePulse {

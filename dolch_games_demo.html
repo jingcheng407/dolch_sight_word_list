@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/static/css/style.css?v=5">
     <link rel="stylesheet" href="/static/css/typography.css?v=1">
     <link rel="stylesheet" href="/static/css/level-selector.css?v=1">
-    <link rel="stylesheet" href="/static/css/bubble-words.css?v=6">
+    <link rel="stylesheet" href="/static/css/bubble-words.css?v=8">
     <link rel="stylesheet" href="/static/css/memory-game.css?v=1">
     <link rel="stylesheet" href="/static/css/spelling-game.css?v=1">
     <link rel="stylesheet" href="/static/css/word-catch-game.css?v=1">
@@ -325,6 +325,9 @@
         function showGameModes() {
             currentMode = 'game-select';
             
+            // 移除bubble-mode类，恢复正常布局
+            document.body.classList.remove('bubble-mode');
+            
             // 显示当前等级信息
             const levelInfo = document.getElementById('current-level-info');
             const levelName = document.getElementById('current-level-name');
@@ -410,6 +413,9 @@
             
             currentMode = 'bubble';
             console.log('🫧 启动气泡模式');
+            
+            // 添加bubble-mode类到body，用于CSS布局修复
+            document.body.classList.add('bubble-mode');
             
             // 隐藏游戏模式选择
             document.getElementById('game-modes').style.display = 'none';

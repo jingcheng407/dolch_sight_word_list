@@ -246,7 +246,7 @@
   flex-wrap: wrap;
   align-content: flex-start;
   /* 修改原因：实现左对齐布局，避免气泡分散显示（从 space-around 改为 flex-start） */
-  justify-content: flex-start !important;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 8px;
   padding: 5px;

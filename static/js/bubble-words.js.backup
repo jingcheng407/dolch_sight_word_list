@@ -357,12 +357,11 @@ class BubbleWordsManager {
             }
         });
         
-        // 将目标气泡垂直居中显示，保持水平位置左对齐
-        // 移除 inline 参数以避免水平滚动引起的"右移感"
-        // iOS Safari 对 inline 参数支持不一致，完全移除更安全
+        // 将目标气泡移到视图中心
         targetBubble.scrollIntoView({ 
             behavior: 'smooth', 
-            block: 'center'
+            block: 'center', 
+            inline: 'center' 
         });
         
         console.log(`🎯 聚焦气泡: ${targetBubble.dataset.word}`);
