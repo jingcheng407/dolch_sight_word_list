@@ -1,0 +1,498 @@
+/**
+ * 卡通UI样式
+ * 专为小朋友设计的可爱、友好的界面
+ */
+
+/* ===== 全局卡通风格 ===== */
+
+:root {
+  --cartoon-primary: #FF6B9D;
+  --cartoon-secondary: #45B7D1;
+  --cartoon-success: #96CEB4;
+  --cartoon-warning: #FFEAA7;
+  --cartoon-danger: #FD79A8;
+  --cartoon-purple: #A29BFE;
+  --cartoon-orange: #FDCB6E;
+  
+  --cartoon-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  --cartoon-hover-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  --cartoon-border-radius: 20px;
+  --cartoon-small-radius: 15px;
+}
+
+/* 卡通字体 */
+.cartoon-font {
+  font-family: 'Comic Neue', 'Fredoka One', cursive, sans-serif;
+}
+
+/* ===== 主容器卡通化 ===== */
+
+body.cartoon-mode {
+  background: linear-gradient(135deg, 
+    #FFE0E0 0%,
+    #E0F0FF 25%,
+    #F0FFE0 50%,
+    #FFF0E0 75%,
+    #F0E0FF 100%);
+  font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+.main-container.cartoon {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--cartoon-border-radius);
+  box-shadow: var(--cartoon-shadow);
+  border: 4px solid var(--cartoon-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 装饰性元素 */
+.main-container.cartoon::before {
+  content: '🌟✨🎈🌈🦄🎪';
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 16px;
+  opacity: 0.3;
+  z-index: 1;
+  animation: decorationFloat 6s ease-in-out infinite;
+}
+
+@keyframes decorationFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* ===== 标题卡通化 ===== */
+
+.main-title.cartoon {
+  font-family: 'Fredoka One', cursive;
+  color: var(--cartoon-primary);
+  text-shadow: 3px 3px 0px #FFF, 4px 4px 0px var(--cartoon-secondary);
+  font-size: clamp(28px, 5vw, 40px);
+  margin-bottom: 15px;
+  animation: titleBounce 3s ease-in-out infinite;
+}
+
+@keyframes titleBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.main-subtitle.cartoon {
+  color: var(--cartoon-secondary);
+  font-weight: 600;
+  font-size: clamp(16px, 3vw, 20px);
+}
+
+/* ===== 等级选择卡通化 ===== */
+
+.current-level-info.cartoon {
+  background: linear-gradient(135deg, var(--cartoon-warning) 0%, var(--cartoon-orange) 100%);
+  border: 3px solid var(--cartoon-primary);
+  border-radius: var(--cartoon-small-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.current-level-info.cartoon::before {
+  content: '🏆';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 32px;
+  opacity: 0.3;
+}
+
+.current-level-title.cartoon {
+  color: var(--cartoon-primary);
+  font-family: 'Fredoka One', cursive;
+}
+
+/* ===== 游戏卡片卡通化 ===== */
+
+.game-mode-card.cartoon {
+  background: linear-gradient(135deg, white 0%, #F8F9FA 100%);
+  border: 4px solid var(--cartoon-secondary);
+  border-radius: var(--cartoon-border-radius);
+  box-shadow: var(--cartoon-shadow);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-mode-card.cartoon::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 6px;
+  background: linear-gradient(90deg, 
+    var(--cartoon-primary) 0%,
+    var(--cartoon-secondary) 25%,
+    var(--cartoon-success) 50%,
+    var(--cartoon-warning) 75%,
+    var(--cartoon-danger) 100%);
+  border-radius: var(--cartoon-border-radius) var(--cartoon-border-radius) 0 0;
+}
+
+.game-mode-card.cartoon:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--cartoon-hover-shadow);
+  border-color: var(--cartoon-primary);
+}
+
+.game-mode-card.cartoon.locked {
+  background: linear-gradient(135deg, #F5F5F5 0%, #E9ECEF 100%);
+  border-color: #CCC;
+  filter: grayscale(0.3);
+}
+
+/* 游戏图标卡通化 */
+.game-mode-icon.cartoon {
+  font-size: 64px;
+  animation: iconWiggle 4s ease-in-out infinite;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes iconWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+.game-mode-title.cartoon {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(20px, 4vw, 24px);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 解锁状态卡通化 */
+.game-unlock-status.cartoon .unlock-icon {
+  font-size: 24px;
+  animation: unlockPulse 2s ease-in-out infinite;
+}
+
+@keyframes unlockPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ===== 按钮卡通化 ===== */
+
+.cartoon-button {
+  background: linear-gradient(135deg, var(--cartoon-primary) 0%, var(--cartoon-danger) 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Fredoka One', cursive;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #E84393, var(--cartoon-shadow);
+  transition: all 0.2s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.cartoon-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.cartoon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #E84393, 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.cartoon-button:hover::before {
+  left: 100%;
+}
+
+.cartoon-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #E84393, var(--cartoon-shadow);
+}
+
+.cartoon-button.secondary {
+  background: linear-gradient(135deg, var(--cartoon-secondary) 0%, var(--cartoon-purple) 100%);
+  box-shadow: 0 6px 0 #6C5CE7, var(--cartoon-shadow);
+}
+
+.cartoon-button.secondary:hover {
+  box-shadow: 0 8px 0 #6C5CE7, 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.cartoon-button.secondary:active {
+  box-shadow: 0 2px 0 #6C5CE7, var(--cartoon-shadow);
+}
+
+/* ===== 进度指示器卡通化 ===== */
+
+.progress-indicator.cartoon {
+  background: linear-gradient(135deg, var(--cartoon-success) 0%, var(--cartoon-warning) 100%);
+  border: 3px solid var(--cartoon-primary);
+  border-radius: var(--cartoon-small-radius);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.progress-indicator.cartoon::before {
+  content: '📊📈✨';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 16px;
+  opacity: 0.4;
+}
+
+.progress-title.cartoon {
+  color: var(--cartoon-primary);
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(18px, 3vw, 22px);
+}
+
+.progress-stat-card.cartoon {
+  background: white;
+  border: 3px solid var(--cartoon-secondary);
+  border-radius: var(--cartoon-small-radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.progress-stat-card.cartoon:hover {
+  transform: translateY(-3px) rotate(1deg);
+  border-color: var(--cartoon-primary);
+}
+
+.progress-stat-icon.cartoon {
+  font-size: 28px;
+  animation: statIconBounce 3s ease-in-out infinite;
+}
+
+@keyframes statIconBounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(5deg); }
+}
+
+.progress-stat-value.cartoon {
+  color: var(--cartoon-primary);
+  font-family: 'Fredoka One', cursive;
+  font-size: 22px;
+}
+
+/* ===== 气泡卡通化 ===== */
+
+.bubble-words-container.cartoon {
+  background: linear-gradient(135deg, 
+    rgba(255, 182, 193, 0.3) 0%,
+    rgba(173, 216, 230, 0.3) 25%,
+    rgba(144, 238, 144, 0.3) 50%,
+    rgba(255, 218, 185, 0.3) 75%,
+    rgba(221, 160, 221, 0.3) 100%);
+  border-radius: var(--cartoon-border-radius);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bubble-words-container.cartoon::before {
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(255, 192, 203, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 85% 25%, rgba(173, 216, 230, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 35% 75%, rgba(144, 238, 144, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 75% 85%, rgba(255, 218, 185, 0.4) 0%, transparent 50%);
+}
+
+.bubble-word-card.cartoon {
+  border: 3px solid white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.bubble-word-card.cartoon:hover {
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+.bubble-word-card.cartoon.learned {
+  border-color: var(--cartoon-success);
+  box-shadow: 0 0 20px var(--cartoon-success);
+  animation: learnedGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes learnedGlow {
+  0% { box-shadow: 0 0 20px var(--cartoon-success); }
+  100% { box-shadow: 0 0 30px var(--cartoon-success), 0 0 40px rgba(150, 206, 180, 0.5); }
+}
+
+/* ===== 响应式卡通设计 ===== */
+
+@media (max-width: 768px) {
+  .main-container.cartoon {
+    margin: 10px;
+    padding: 20px;
+    border-width: 3px;
+  }
+  
+  .main-title.cartoon {
+    font-size: 24px;
+  }
+  
+  .game-mode-icon.cartoon {
+    font-size: 48px;
+  }
+  
+  .cartoon-button {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container.cartoon::before {
+    font-size: 12px;
+    top: 5px;
+    right: 10px;
+  }
+  
+  .game-mode-card.cartoon {
+    border-width: 3px;
+  }
+  
+  .progress-stat-icon.cartoon {
+    font-size: 24px;
+  }
+}
+
+/* ===== iPad 优化 ===== */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .main-container.cartoon {
+    max-width: 95%;
+    padding: 30px;
+  }
+  
+  .game-modes.cartoon {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .game-mode-card.cartoon {
+    padding: 30px;
+  }
+  
+  .game-mode-icon.cartoon {
+    font-size: 72px;
+  }
+  
+  .game-mode-title.cartoon {
+    font-size: 26px;
+  }
+}
+
+/* ===== 可爱的加载动画 ===== */
+
+.cartoon-loading {
+  display: inline-block;
+  font-size: 32px;
+  animation: cartoonSpin 1s linear infinite;
+}
+
+@keyframes cartoonSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== 卡通提示框 ===== */
+
+.cartoon-tooltip {
+  background: var(--cartoon-primary);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 600;
+  box-shadow: var(--cartoon-shadow);
+  position: relative;
+}
+
+.cartoon-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: var(--cartoon-primary);
+}
+
+/* ===== 特殊效果 ===== */
+
+.cartoon-sparkle {
+  display: inline-block;
+  animation: cartoonSparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes cartoonSparkle {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% { 
+    transform: scale(1.2) rotate(90deg);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: scale(1.1) rotate(180deg);
+    opacity: 1;
+  }
+  75% { 
+    transform: scale(1.3) rotate(270deg);
+    opacity: 0.9;
+  }
+}
+
+/* ===== 音效视觉反馈 ===== */
+
+.cartoon-sound-effect {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  animation: soundBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes soundBounce {
+  0% { 
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 0;
+  }
+}

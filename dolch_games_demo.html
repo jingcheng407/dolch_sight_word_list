@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Dolch Sight Words 游戏中心</title>
+    
+    <!-- 引入所有必要的CSS -->
+    <link rel="stylesheet" href="/static/css/style.css?v=5">
+    <link rel="stylesheet" href="/static/css/typography.css?v=1">
+    <link rel="stylesheet" href="/static/css/level-selector.css?v=1">
+    <link rel="stylesheet" href="/static/css/bubble-words.css?v=6">
+    <link rel="stylesheet" href="/static/css/memory-game.css?v=1">
+    <link rel="stylesheet" href="/static/css/spelling-game.css?v=1">
+    <link rel="stylesheet" href="/static/css/word-catch-game.css?v=1">
+    <link rel="stylesheet" href="/static/css/word-speed-game.css?v=1">
+    <link rel="stylesheet" href="/static/css/achievement-system.css?v=3">
+    <link rel="stylesheet" href="/static/css/cartoon-ui.css?v=3">
+    <link rel="stylesheet" href="/static/css/ipad-layout.css?v=5">
+    
+    <!-- 字体引入 -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Comic Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4285f4;
+            margin: 0 0 10px 0;
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .main-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin: 0 0 20px 0;
+        }
+        
+        .game-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .game-mode-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-mode-card:hover {
+            transform: translateY(-5px);
+            border-color: #4285f4;
+            box-shadow: 0 12px 35px rgba(66, 133, 244, 0.2);
+        }
+        
+        .game-mode-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .game-mode-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        .game-mode-description {
+            font-size: 16px;
+            color: #666;
+            margin: 0 0 15px 0;
+            line-height: 1.4;
+        }
+        
+        .game-mode-features {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .current-level-info {
+            background: #e8f4fd;
+            border: 2px solid #4285f4;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .current-level-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4285f4;
+            margin: 0 0 8px 0;
+        }
+        
+        .current-level-details {
+            color: #666;
+        }
+        
+        .content-area {
+            min-height: 400px;
+            margin-top: 30px;
+        }
+        
+        #bubble-container {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+        
+        .back-button {
+            background: #78909c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: #546e7a;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .main-title {
+                font-size: 28px;
+            }
+            
+            .game-modes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="cartoon-mode ipad-layout">
+    <div class="main-container cartoon">
+        <header class="main-header">
+            <h1 class="main-title cartoon">🎮 Dolch Sight Words 游戏中心</h1>
+            <p class="main-subtitle cartoon">选择等级，开始有趣的单词学习之旅！</p>
+        </header>
+        
+        <!-- 当前等级信息 -->
+        <div class="current-level-info cartoon" id="current-level-info" style="display: none;">
+            <div class="current-level-title cartoon" id="current-level-name">当前等级</div>
+            <div class="current-level-details" id="current-level-details">等级详情</div>
+        </div>
+        
+        <!-- 游戏模式选择 -->
+        <div class="game-modes cartoon" id="game-modes" style="display: none;">
+            <div class="game-mode-card cartoon" onclick="startBubbleMode()">
+                <div class="game-mode-icon cartoon">🫧</div>
+                <h3 class="game-mode-title cartoon" style="color: #4caf50;">气泡探索</h3>
+                <p class="game-mode-description">
+                    点击彩色气泡，发现隐藏的单词。气泡会聚焦放大，其他虚化，让学习更专注。
+                </p>
+                <div class="game-mode-features">
+                    ✨ 聚焦效果 • 🔊 语音朗读 • 🎨 多彩主题
+                </div>
+                <div class="game-unlock-status cartoon">
+                    <span class="unlock-icon unlocked">🔓</span>
+                    <span class="unlock-text unlocked">已解锁</span>
+                </div>
+            </div>
+            
+            <div class="game-mode-card cartoon" id="word-catch-card" onclick="tryStartWordCatchGame()">
+                <div class="game-mode-icon cartoon">🎯</div>
+                <h3 class="game-mode-title cartoon" style="color: #2196f3;">单词捕捉</h3>
+                <p class="game-mode-description">
+                    从天空掉落的单词中，快速找到并点击听到的目标单词！
+                </p>
+                <div class="game-mode-features">
+                    ☁️ 天空掉落 • 🎯 精准捕捉 • ⚡ 升级挑战
+                </div>
+                <div class="game-unlock-status cartoon" id="catch-unlock-status">
+                    <span class="unlock-icon locked">🔒</span>
+                    <span class="unlock-text locked">完成气泡探索解锁</span>
+                </div>
+            </div>
+            
+            <div class="game-mode-card cartoon" id="word-speed-card" onclick="tryStartWordSpeedGame()">
+                <div class="game-mode-icon cartoon">⚡</div>
+                <h3 class="game-mode-title cartoon" style="color: #ff5722;">单词竞速</h3>
+                <p class="game-mode-description">
+                    60秒极速挑战，听音快速识别正确单词，挑战你的反应极限！
+                </p>
+                <div class="game-mode-features">
+                    ⏱️ 限时挑战 • 🔥 连击系统 • 🏆 竞速排行
+                </div>
+                <div class="game-unlock-status cartoon" id="speed-unlock-status">
+                    <span class="unlock-icon locked">🔒</span>
+                    <span class="unlock-text locked">完成气泡探索解锁</span>
+                </div>
+            </div>
+            
+            <div class="game-mode-card cartoon" id="memory-card" onclick="tryStartMemoryGame()">
+                <div class="game-mode-icon cartoon">🧠</div>
+                <h3 class="game-mode-title cartoon" style="color: #9c27b0;">记忆翻卡</h3>
+                <p class="game-mode-description">
+                    翻开卡片找到相同的单词配对，锻炼记忆力和单词识别能力。
+                </p>
+                <div class="game-mode-features">
+                    🃏 翻卡配对 • ⏰ 计时挑战 • 🎯 准确率统计
+                </div>
+                <div class="game-unlock-status cartoon" id="memory-unlock-status">
+                    <span class="unlock-icon locked">🔒</span>
+                    <span class="unlock-text locked">完成气泡探索解锁</span>
+                </div>
+            </div>
+            
+            <div class="game-mode-card cartoon" id="spelling-card" onclick="tryStartSpellingGame()">
+                <div class="game-mode-icon cartoon">✏️</div>
+                <h3 class="game-mode-title cartoon" style="color: #ff9800;">单词拼写</h3>
+                <p class="game-mode-description">
+                    听声音拼出正确的单词，提高拼写能力和单词记忆。
+                </p>
+                <div class="game-mode-features">
+                    🔊 听音拼写 • ⌨️ 虚拟键盘 • 💡 智能提示
+                </div>
+                <div class="game-unlock-status cartoon" id="spelling-unlock-status">
+                    <span class="unlock-icon locked">🔒</span>
+                    <span class="unlock-text locked">完成气泡探索解锁</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content-area" id="content-area">
+            <!-- 等级选择器将在这里显示 -->
+        </div>
+    </div>
+
+    <!-- JavaScript 文件 -->
+    <script src="/static/js/achievement-system.js?v=1"></script>
+    <script src="/static/js/learned-words-filter.js?v=1"></script>
+    <script src="/static/js/level-selector.js?v=1"></script>
+    <script src="/static/js/bubble-words.js?v=2"></script>
+    <script src="/static/js/memory-game.js?v=1"></script>
+    <script src="/static/js/spelling-game.js?v=1"></script>
+    <script src="/static/js/word-catch-game.js?v=1"></script>
+    <script src="/static/js/word-speed-game.js?v=1"></script>
+    
+    <script>
+        // 全局状态
+        let currentLevelData = null;
+        let currentMode = 'level-select';
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎮 Dolch游戏中心初始化');
+            showLevelSelector();
+        });
+        
+        /**
+         * 显示等级选择器
+         */
+        async function showLevelSelector() {
+            currentMode = 'level-select';
+            
+            // 隐藏游戏模式和等级信息
+            document.getElementById('game-modes').style.display = 'none';
+            document.getElementById('current-level-info').style.display = 'none';
+            
+            // 显示等级选择器
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '<div id="level-selector-container"></div>';
+            
+            // 初始化等级选择器
+            const container = document.getElementById('level-selector-container');
+            await levelSelector.init(container, onLevelSelected);
+        }
+        
+        /**
+         * 等级选择回调
+         */
+        function onLevelSelected(data) {
+            currentLevelData = data;
+            console.log('✅ 选择等级:', data.levelInfo.level);
+            
+            showGameModes();
+        }
+        
+        /**
+         * 显示游戏模式选择
+         */
+        function showGameModes() {
+            currentMode = 'game-select';
+            
+            // 显示当前等级信息
+            const levelInfo = document.getElementById('current-level-info');
+            const levelName = document.getElementById('current-level-name');
+            const levelDetails = document.getElementById('current-level-details');
+            
+            levelName.textContent = `${currentLevelData.levelInfo.level} 🎯`;
+            levelDetails.innerHTML = `
+                ${currentLevelData.levelInfo.description}<br>
+                <strong>适合年龄:</strong> ${currentLevelData.levelInfo.age_range} • 
+                <strong>单词数量:</strong> ${currentLevelData.levelInfo.word_count} 个
+            `;
+            levelInfo.style.display = 'block';
+            
+            // 更新游戏解锁状态
+            updateGameUnlockStatus();
+            
+            // 显示游戏模式选择
+            document.getElementById('game-modes').style.display = 'grid';
+            
+            // 清空内容区域
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <p style="color: #666; font-size: 18px;">
+                        请选择上面的游戏模式开始学习 👆
+                    </p>
+                </div>
+            `;
+        }
+        
+        /**
+         * 更新游戏解锁状态
+         */
+        function updateGameUnlockStatus() {
+            if (!window.achievementSystem) return;
+            
+            const games = [
+                { id: 'wordCatchGame', statusId: 'catch-unlock-status', cardId: 'word-catch-card' },
+                { id: 'wordSpeedGame', statusId: 'speed-unlock-status', cardId: 'word-speed-card' },
+                { id: 'memoryGame', statusId: 'memory-unlock-status', cardId: 'memory-card' },
+                { id: 'spellingGame', statusId: 'spelling-unlock-status', cardId: 'spelling-card' }
+            ];
+            
+            games.forEach(game => {
+                const statusElement = document.getElementById(game.statusId);
+                const cardElement = document.getElementById(game.cardId);
+                const isUnlocked = window.achievementSystem.isGameUnlocked(game.id);
+                
+                if (statusElement) {
+                    const iconElement = statusElement.querySelector('.unlock-icon');
+                    const textElement = statusElement.querySelector('.unlock-text');
+                    
+                    if (isUnlocked) {
+                        iconElement.textContent = '🔓';
+                        iconElement.className = 'unlock-icon unlocked';
+                        textElement.textContent = '已解锁';
+                        textElement.className = 'unlock-text unlocked';
+                        
+                        if (cardElement) {
+                            cardElement.style.opacity = '1';
+                            cardElement.style.filter = 'none';
+                        }
+                    } else {
+                        iconElement.textContent = '🔒';
+                        iconElement.className = 'unlock-icon locked';
+                        textElement.textContent = '完成气泡探索解锁';
+                        textElement.className = 'unlock-text locked';
+                        
+                        if (cardElement) {
+                            cardElement.style.opacity = '0.6';
+                            cardElement.style.filter = 'grayscale(0.5)';
+                        }
+                    }
+                }
+            });
+        }
+        
+        /**
+         * 开始气泡模式
+         */
+        function startBubbleMode() {
+            if (!currentLevelData) return;
+            
+            currentMode = 'bubble';
+            console.log('🫧 启动气泡模式');
+            
+            // 隐藏游戏模式选择
+            document.getElementById('game-modes').style.display = 'none';
+            
+            // 显示返回按钮和气泡游戏
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <button class="cartoon-button secondary" onclick="showGameModes()">
+                    ← 返回游戏选择
+                </button>
+                <div id="bubble-container"></div>
+            `;
+            
+            // 初始化气泡游戏
+            const bubbleContainer = document.getElementById('bubble-container');
+            const bubbleManager = new BubbleWordsManager();
+            bubbleManager.createBubbleGrid(currentLevelData.words, bubbleContainer, currentLevelData.level);
+        }
+        
+        /**
+         * 尝试开始游戏（带解锁检查和单词检查）
+         */
+        function tryStartWordCatchGame() {
+            if (!window.achievementSystem || !window.achievementSystem.isGameUnlocked('wordCatchGame')) {
+                showLockedGameMessage('单词捕捉');
+                return;
+            }
+            
+            // 检查是否有足够的已学习单词
+            if (window.learnedWordsFilter && !window.learnedWordsFilter.canStartGame(currentLevelData.level, 'wordCatch')) {
+                const required = window.learnedWordsFilter.getMinimumWordsForGame('wordCatch');
+                const current = window.learnedWordsFilter.getLearnedWords(currentLevelData.level).length;
+                window.learnedWordsFilter.showInsufficientWordsMessage('wordCatch', required, current);
+                return;
+            }
+            
+            startWordCatchGame();
+        }
+        
+        function tryStartWordSpeedGame() {
+            if (!window.achievementSystem || !window.achievementSystem.isGameUnlocked('wordSpeedGame')) {
+                showLockedGameMessage('单词竞速');
+                return;
+            }
+            
+            // 检查是否有足够的已学习单词
+            if (window.learnedWordsFilter && !window.learnedWordsFilter.canStartGame(currentLevelData.level, 'wordSpeed')) {
+                const required = window.learnedWordsFilter.getMinimumWordsForGame('wordSpeed');
+                const current = window.learnedWordsFilter.getLearnedWords(currentLevelData.level).length;
+                window.learnedWordsFilter.showInsufficientWordsMessage('wordSpeed', required, current);
+                return;
+            }
+            
+            startWordSpeedGame();
+        }
+        
+        function tryStartMemoryGame() {
+            if (!window.achievementSystem || !window.achievementSystem.isGameUnlocked('memoryGame')) {
+                showLockedGameMessage('记忆翻卡');
+                return;
+            }
+            
+            // 检查是否有足够的已学习单词
+            if (window.learnedWordsFilter && !window.learnedWordsFilter.canStartGame(currentLevelData.level, 'memory')) {
+                const required = window.learnedWordsFilter.getMinimumWordsForGame('memory');
+                const current = window.learnedWordsFilter.getLearnedWords(currentLevelData.level).length;
+                window.learnedWordsFilter.showInsufficientWordsMessage('memory', required, current);
+                return;
+            }
+            
+            startMemoryGame();
+        }
+        
+        function tryStartSpellingGame() {
+            if (!window.achievementSystem || !window.achievementSystem.isGameUnlocked('spellingGame')) {
+                showLockedGameMessage('单词拼写');
+                return;
+            }
+            
+            // 检查是否有足够的已学习单词
+            if (window.learnedWordsFilter && !window.learnedWordsFilter.canStartGame(currentLevelData.level, 'spelling')) {
+                const required = window.learnedWordsFilter.getMinimumWordsForGame('spelling');
+                const current = window.learnedWordsFilter.getLearnedWords(currentLevelData.level).length;
+                window.learnedWordsFilter.showInsufficientWordsMessage('spelling', required, current);
+                return;
+            }
+            
+            startSpellingGame();
+        }
+        
+        /**
+         * 显示游戏锁定提示
+         */
+        function showLockedGameMessage(gameName) {
+            const modal = document.createElement('div');
+            modal.className = 'achievement-notification';
+            modal.innerHTML = `
+                <div class="achievement-modal">
+                    <div class="achievement-header">
+                        <div class="achievement-icon">🔒</div>
+                        <h3>游戏锁定</h3>
+                    </div>
+                    <div class="achievement-content">
+                        <h4>${gameName} 还未解锁</h4>
+                        <p>请先完成气泡探索学习足够的单词来解锁所有游戏！</p>
+                        <p>💡 提示：学会当前级别40%的单词即可解锁</p>
+                    </div>
+                    <button class="achievement-close" onclick="this.closest('.achievement-notification').remove()">
+                        🫧 去探索气泡
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // 播放提示音
+            if (window.achievementSystem) {
+                window.achievementSystem.playTone([440], 500);
+            }
+        }
+        
+        /**
+         * 开始记忆游戏
+         */
+        function startMemoryGame() {
+            if (!currentLevelData) return;
+            
+            currentMode = 'memory';
+            console.log('🧠 启动记忆游戏');
+            
+            // 隐藏游戏模式选择
+            document.getElementById('game-modes').style.display = 'none';
+            
+            // 显示返回按钮和记忆游戏
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <button class="cartoon-button secondary" onclick="showGameModes()">
+                    ← 返回游戏选择
+                </button>
+                <div id="memory-container"></div>
+            `;
+            
+            // 获取已学习的单词
+            let wordsToUse = currentLevelData.words;
+            if (window.learnedWordsFilter) {
+                wordsToUse = window.learnedWordsFilter.filterLearnedWords(currentLevelData.words, currentLevelData.level);
+            }
+            
+            // 初始化记忆游戏
+            const memoryContainer = document.getElementById('memory-container');
+            const difficulty = getDifficultyByLevel(currentLevelData.level);
+            memoryGame.init(memoryContainer, wordsToUse, currentLevelData.level, difficulty);
+        }
+        
+        /**
+         * 开始拼写游戏
+         */
+        function startSpellingGame() {
+            if (!currentLevelData) return;
+            
+            currentMode = 'spelling';
+            console.log('✏️ 启动拼写游戏');
+            
+            // 隐藏游戏模式选择
+            document.getElementById('game-modes').style.display = 'none';
+            
+            // 显示返回按钮和拼写游戏
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <button class="cartoon-button secondary" onclick="showGameModes()">
+                    ← 返回游戏选择
+                </button>
+                <div id="spelling-container"></div>
+            `;
+            
+            // 获取已学习的单词
+            let wordsToUse = currentLevelData.words;
+            if (window.learnedWordsFilter) {
+                wordsToUse = window.learnedWordsFilter.filterLearnedWords(currentLevelData.words, currentLevelData.level);
+            }
+            
+            // 初始化拼写游戏
+            const spellingContainer = document.getElementById('spelling-container');
+            spellingGame.init(spellingContainer, wordsToUse, currentLevelData.level);
+        }
+        
+        /**
+         * 开始单词捕捉游戏
+         */
+        function startWordCatchGame() {
+            if (!currentLevelData) return;
+            
+            currentMode = 'wordcatch';
+            console.log('🎯 启动单词捕捉游戏');
+            
+            // 隐藏游戏模式选择
+            document.getElementById('game-modes').style.display = 'none';
+            
+            // 显示返回按钮和单词捕捉游戏
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <button class="cartoon-button secondary" onclick="showGameModes()">
+                    ← 返回游戏选择
+                </button>
+                <div id="wordcatch-container"></div>
+            `;
+            
+            // 获取已学习的单词
+            let wordsToUse = currentLevelData.words;
+            if (window.learnedWordsFilter) {
+                wordsToUse = window.learnedWordsFilter.filterLearnedWords(currentLevelData.words, currentLevelData.level);
+            }
+            
+            // 初始化单词捕捉游戏
+            const wordCatchContainer = document.getElementById('wordcatch-container');
+            wordCatchGame.init(wordCatchContainer, wordsToUse, currentLevelData.level);
+        }
+        
+        /**
+         * 开始单词竞速游戏
+         */
+        function startWordSpeedGame() {
+            if (!currentLevelData) return;
+            
+            currentMode = 'wordspeed';
+            console.log('⚡ 启动单词竞速游戏');
+            
+            // 隐藏游戏模式选择
+            document.getElementById('game-modes').style.display = 'none';
+            
+            // 显示返回按钮和单词竞速游戏
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `
+                <button class="cartoon-button secondary" onclick="showGameModes()">
+                    ← 返回游戏选择
+                </button>
+                <div id="wordspeed-container"></div>
+            `;
+            
+            // 获取已学习的单词
+            let wordsToUse = currentLevelData.words;
+            if (window.learnedWordsFilter) {
+                wordsToUse = window.learnedWordsFilter.filterLearnedWords(currentLevelData.words, currentLevelData.level);
+            }
+            
+            // 初始化单词竞速游戏
+            const wordSpeedContainer = document.getElementById('wordspeed-container');
+            wordSpeedGame.init(wordSpeedContainer, wordsToUse, currentLevelData.level);
+        }
+        
+        /**
+         * 根据等级获取游戏难度
+         */
+        function getDifficultyByLevel(level) {
+            switch (level) {
+                case 'pre_primer':
+                    return 'easy';
+                case 'primer':
+                    return 'medium';
+                case 'first_grade':
+                    return 'hard';
+                case 'second_grade':
+                    return 'hard';
+                default:
+                    return 'easy';
+            }
+        }
+        
+        /**
+         * 键盘快捷键支持
+         */
+        document.addEventListener('keydown', (e) => {
+            // ESC键返回上一级
+            if (e.key === 'Escape') {
+                if (currentMode === 'bubble' || currentMode === 'memory' || currentMode === 'spelling' || 
+                    currentMode === 'wordcatch' || currentMode === 'wordspeed') {
+                    showGameModes();
+                } else if (currentMode === 'game-select') {
+                    showLevelSelector();
+                }
+            }
+        });
+        
+        // 监听单词学习事件
+        document.addEventListener('wordRevealed', (event) => {
+            const wordData = event.detail.wordData;
+            console.log(`🎉 学习了单词: ${wordData.word}`);
+            
+            // 可以在这里添加学习进度跟踪
+            // saveProgress(wordData);
+        });
+        
+        console.log('✅ Dolch游戏中心加载完成');
+    </script>
+</body>
+</html>

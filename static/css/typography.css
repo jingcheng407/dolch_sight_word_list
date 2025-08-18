@@ -22,6 +22,7 @@
   /* 增强现有的文字颜色（保持现有命名，优化数值） */
   --text-dark: #2d3436;       /* AAA级别，12.68:1对比度，保持不变 */
   --text-medium: #636e72;     /* 中等灰色，5.24:1对比度，轻微加深 */
+  --text-light: #636e72;      /* 兼容原有变量名，与text-medium保持一致 */
 }
 
 /* 高对比度模式支持 */
@@ -72,17 +73,19 @@
 
 /* ===== 核心文字样式优化 ===== */
 
-/* word-text 类优化：使用安全的文字颜色 */
+/* word-text 类优化：使用安全的文字颜色，提高特异性以覆盖style.css */
+.word-card .word-text,
 .word-text {
-  color: var(--text-dark);        /* 默认使用最安全的深色 */
+  color: var(--text-dark) !important;        /* 默认使用最安全的深色 */
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   font-weight: 700;
 }
 
-/* word-category 类优化：确保分类标签清晰可读 */
+/* word-category 类优化：确保分类标签清晰可读，提高特异性 */
+.word-card .word-category,
 .word-category {
-  color: var(--text-medium);      /* 使用加深后的中灰色 */
+  color: var(--text-medium) !important;      /* 使用加深后的中灰色 */
   font-size: var(--font-size-category);
   line-height: var(--line-height-compact);
   text-transform: uppercase;

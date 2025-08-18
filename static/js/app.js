@@ -17,6 +17,10 @@ class DolchApp {
         // 响应式网格管理器
         this.gridManager = null;
         
+        // 气泡单词管理器
+        this.bubbleManager = null;
+        this.useBubbleMode = true; // 启用气泡模式
+        
         this.init();
     }
 
@@ -44,6 +48,10 @@ class DolchApp {
             // 初始化布局管理器
             this.initLayoutManager();
             console.log('Layout manager initialized');
+            
+            // 初始化气泡管理器
+            this.initBubbleManager();
+            console.log('Bubble manager initialized');
             
             this.showLearnTab();
             this.updateProgress();
@@ -287,6 +295,12 @@ class DolchApp {
             return;
         }
         
+        // 如果启用气泡模式，使用气泡渲染
+        if (this.useBubbleMode && this.bubbleManager) {
+            this.bubbleManager.createBubbleGrid(words, grid);
+            return;
+        }
+        
         // 清空现有内容
         grid.innerHTML = '';
         
@@ -343,6 +357,13 @@ class DolchApp {
                 card.classList.add('bounce-in');
             }, index * 50);
         });
+        
+        // 触发响应式文字调整
+        if (window.textManager) {
+            setTimeout(() => {
+                window.textManager.refresh();
+            }, 100); // 稍作延迟确保DOM渲染完成
+        }
     }
 
     shuffleWords() {
@@ -973,6 +994,13 @@ class DolchApp {
                 card.classList.add('bounce-in');
             }, index * 50);
         });
+        
+        // 触发响应式文字调整
+        if (window.textManager) {
+            setTimeout(() => {
+                window.textManager.refresh();
+            }, 100); // 稍作延迟确保DOM渲染完成
+        }
     }
 
     addPaginationControls() {
@@ -1368,6 +1396,28 @@ const additionalStyles = `
 }
 </style>
 `;
+
+}
+
+// 气泡管理器初始化方法 (临时放在类外部，稍后修复)
+DolchApp.prototype.initBubbleManager = function() {
+    if (typeof BubbleWordsManager !== 'undefined') {
+        this.bubbleManager = new BubbleWordsManager();
+        
+        // 监听单词揭示事件
+        document.addEventListener('wordRevealed', (event) => {
+            const wordData = event.detail.wordData;
+            this.learnedWords.add(wordData.word);
+            localStorage.setItem('learnedWords', JSON.stringify([...this.learnedWords]));
+            this.updateProgress();
+        });
+        
+        console.log('✅ 气泡管理器初始化完成');
+    } else {
+        console.warn('⚠️ BubbleWordsManager 未找到，使用传统模式');
+        this.useBubbleMode = false;
+    }
+};
 
 document.head.insertAdjacentHTML('beforeend', additionalStyles);
 

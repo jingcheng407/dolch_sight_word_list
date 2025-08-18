@@ -1,0 +1,495 @@
+/**
+ * 单词捕捉游戏样式
+ * 从天空掉落的单词，玩家需要点击听到的正确单词
+ */
+
+/* ===== 游戏容器 ===== */
+
+.word-catch-container {
+  background: linear-gradient(135deg, 
+    #87CEEB 0%, 
+    #98D8E8 20%,
+    #B0E2FF 40%,
+    #87CEFA 60%,
+    #87CEEB 100%);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+}
+
+/* 天空背景动画 */
+.word-catch-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="cloud" cx="50%" cy="50%"><stop offset="0%" style="stop-color:white;stop-opacity:0.9"/><stop offset="100%" style="stop-color:white;stop-opacity:0.4"/></radialGradient></defs><ellipse cx="20" cy="25" rx="15" ry="8" fill="url(%23cloud)"/><ellipse cx="70" cy="15" rx="20" ry="10" fill="url(%23cloud)"/><ellipse cx="85" cy="45" rx="12" ry="6" fill="url(%23cloud)"/><ellipse cx="15" cy="75" rx="18" ry="9" fill="url(%23cloud)"/><ellipse cx="45" cy="60" rx="14" ry="7" fill="url(%23cloud)"/></svg>');
+  background-size: 300px 200px;
+  animation: cloudFloat 25s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 添加天空中的星星效果 */
+.word-catch-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(255,255,255,0.8) 1px, transparent 2px),
+    radial-gradient(circle at 85% 25%, rgba(255,255,255,0.6) 1px, transparent 2px),
+    radial-gradient(circle at 35% 35%, rgba(255,255,255,0.7) 1px, transparent 2px),
+    radial-gradient(circle at 65% 65%, rgba(255,255,255,0.9) 1px, transparent 2px),
+    radial-gradient(circle at 25% 75%, rgba(255,255,255,0.5) 1px, transparent 2px);
+  animation: starTwinkle 3s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes cloudFloat {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(100px); }
+}
+
+.word-catch-header {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.word-catch-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1565C0;
+  margin: 0 0 8px 0;
+  font-family: 'Fredoka One', cursive;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.word-catch-subtitle {
+  font-size: 16px;
+  color: #37474F;
+  margin: 0 0 15px 0;
+  font-weight: 600;
+}
+
+/* ===== 游戏状态栏 ===== */
+
+.word-catch-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.word-catch-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.word-catch-stat-emoji {
+  font-size: 18px;
+}
+
+.word-catch-stat-value {
+  color: #1565C0;
+  font-size: 18px;
+}
+
+/* ===== 当前目标单词显示 ===== */
+
+.word-catch-target {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 15px 0;
+  position: relative;
+  z-index: 2;
+  border: 3px solid #4CAF50;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+}
+
+.word-catch-target-title {
+  font-size: 18px;
+  color: #2E7D32;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.word-catch-target-word {
+  font-size: 32px;
+  font-weight: 700;
+  color: #4CAF50;
+  margin: 5px 0;
+  font-family: 'Fredoka One', cursive;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.word-catch-target-pronunciation {
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.word-catch-play-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.word-catch-play-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* ===== 游戏区域 ===== */
+
+.word-catch-game-area {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(to bottom, 
+    rgba(135, 206, 235, 0.1) 0%,
+    rgba(144, 238, 144, 0.1) 100%);
+  border-radius: 15px;
+  margin: 20px 0;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* ===== 掉落的单词 ===== */
+
+.falling-word {
+  position: absolute;
+  background: white;
+  border: 3px solid #2196F3;
+  border-radius: 25px;
+  padding: 12px 18px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1976D2;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  transition: all 0.2s ease;
+  animation: wordFall linear;
+  z-index: 10;
+}
+
+.falling-word:hover {
+  transform: scale(1.1);
+  border-color: #FF9800;
+  background: #FFF3E0;
+  color: #F57C00;
+}
+
+.falling-word.target {
+  border-color: #4CAF50;
+  background: #E8F5E8;
+  color: #2E7D32;
+  animation: wordFallTarget linear, targetGlow 2s ease-in-out infinite alternate;
+}
+
+.falling-word.target:hover {
+  border-color: #FF5722;
+  background: #FFEBEE;
+  color: #D32F2F;
+  transform: scale(1.2);
+}
+
+.falling-word.caught-correct {
+  animation: correctCatch 0.5s ease forwards;
+}
+
+.falling-word.caught-wrong {
+  animation: wrongCatch 0.5s ease forwards;
+}
+
+/* 掉落动画 */
+@keyframes wordFall {
+  from {
+    top: -50px;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    top: 420px;
+    opacity: 0.7;
+  }
+}
+
+@keyframes wordFallTarget {
+  from {
+    top: -50px;
+    opacity: 0;
+    transform: translateY(-20px) scale(1);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    top: 420px;
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+@keyframes targetGlow {
+  from { box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); }
+  to { box-shadow: 0 8px 30px rgba(76, 175, 80, 0.6); }
+}
+
+@keyframes correctCatch {
+  0% { 
+    transform: scale(1);
+    background: #E8F5E8;
+  }
+  50% { 
+    transform: scale(1.5);
+    background: #4CAF50;
+    color: white;
+  }
+  100% { 
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes wrongCatch {
+  0% { 
+    transform: scale(1) rotate(0deg);
+    background: white;
+  }
+  25% { 
+    transform: scale(1.2) rotate(-5deg);
+    background: #FFCDD2;
+    color: #D32F2F;
+  }
+  50% { 
+    transform: scale(1.2) rotate(5deg);
+  }
+  75% { 
+    transform: scale(1.2) rotate(-5deg);
+  }
+  100% { 
+    transform: scale(1) rotate(0deg);
+    background: #FFCDD2;
+  }
+}
+
+/* ===== 特效 ===== */
+
+.word-catch-effect {
+  position: absolute;
+  pointer-events: none;
+  font-size: 32px;
+  font-weight: bold;
+  z-index: 100;
+  animation: effectFloat 2s ease forwards;
+}
+
+.word-catch-effect.correct {
+  color: #4CAF50;
+}
+
+.word-catch-effect.wrong {
+  color: #F44336;
+}
+
+@keyframes effectFloat {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5) translateY(-50px);
+  }
+}
+
+/* ===== 游戏控制 ===== */
+
+.word-catch-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.word-catch-control-btn {
+  background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  font-family: 'Comic Neue', Arial, sans-serif;
+}
+
+.word-catch-control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.word-catch-control-btn:active {
+  transform: translateY(0);
+}
+
+.word-catch-control-btn.secondary {
+  background: linear-gradient(135deg, #78909c 0%, #546e7a 100%);
+  box-shadow: 0 4px 15px rgba(120, 144, 156, 0.3);
+}
+
+.word-catch-control-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===== 响应式设计 ===== */
+
+@media (max-width: 768px) {
+  .word-catch-container {
+    padding: 20px;
+    margin: 15px 0;
+    min-height: 500px;
+  }
+  
+  .word-catch-game-area {
+    height: 350px;
+  }
+  
+  .falling-word {
+    padding: 10px 15px;
+    font-size: 16px;
+  }
+  
+  .word-catch-target-word {
+    font-size: 28px;
+  }
+  
+  .word-catch-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .word-catch-game-area {
+    height: 300px;
+  }
+  
+  .falling-word {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .word-catch-target-word {
+    font-size: 24px;
+  }
+  
+  .word-catch-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .word-catch-control-btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* ===== 难度等级样式 ===== */
+
+.word-catch-container[data-level="pre_primer"] {
+  background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+}
+
+.word-catch-container[data-level="primer"] {
+  background: linear-gradient(135deg, #BBDEFB 0%, #90CAF9 100%);
+}
+
+.word-catch-container[data-level="first_grade"] {
+  background: linear-gradient(135deg, #FFE0B2 0%, #FFCC82 100%);
+}
+
+.word-catch-container[data-level="second_grade"] {
+  background: linear-gradient(135deg, #F8BBD9 0%, #F48FB1 100%);
+}
+
+/* ===== 暂停遮罩 ===== */
+
+.word-catch-pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 20px;
+}
+
+.word-catch-pause-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.word-catch-pause-title {
+  font-size: 24px;
+  color: #1565C0;
+  margin-bottom: 15px;
+  font-family: 'Fredoka One', cursive;
+}

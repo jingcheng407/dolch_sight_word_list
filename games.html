@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Dolch Games - 跳转中...</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .redirect-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+        .redirect-title {
+            font-size: 32px;
+            color: #4285f4;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .redirect-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .redirect-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .redirect-btn {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        }
+        .redirect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+        }
+        .redirect-btn.secondary {
+            background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <h1 class="redirect-title">🎮 Dolch Sight Words 游戏中心</h1>
+        <div class="redirect-message">
+            欢迎来到Dolch单词学习游戏中心！<br>
+            选择下面的链接开始您的学习之旅：
+        </div>
+        
+        <div class="redirect-links">
+            <a href="/dolch_games_demo.html" class="redirect-btn">
+                🚀 进入完整游戏中心
+            </a>
+            <a href="/focus_bubble_test.html" class="redirect-btn secondary">
+                🫧 直接体验气泡游戏
+            </a>
+        </div>
+        
+        <div class="loading" id="auto-redirect">
+            3秒后自动跳转到完整游戏中心...
+        </div>
+    </div>
+
+    <script>
+        // 3秒后自动跳转
+        let countdown = 3;
+        const loadingElement = document.getElementById('auto-redirect');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                loadingElement.textContent = `${countdown}秒后自动跳转到完整游戏中心...`;
+            } else {
+                clearInterval(timer);
+                loadingElement.textContent = '正在跳转...';
+                window.location.href = '/dolch_games_demo.html';
+            }
+        }, 1000);
+        
+        // 如果用户点击了链接，取消自动跳转
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('redirect-btn')) {
+                clearInterval(timer);
+            }
+        });
+    </script>
+</body>
+</html>

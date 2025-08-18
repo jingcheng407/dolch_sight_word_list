@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌈 快乐学单词 - 我的第一本英语词汇书</title>
-    <!-- CSS引入顺序：基础 → 排版/对比度 → 响应式 → 设备定制 -->
+    <!-- CSS引入顺序：基础 → 排版/对比度 → 响应式文字 → 响应式布局 → 设备定制 -->
     <link rel="stylesheet" href="/static/css/style.css?v=5">
     <link rel="stylesheet" href="/static/css/typography.css?v=1">
+    <link rel="stylesheet" href="/static/css/responsive-text.css?v=1">
     <link rel="stylesheet" href="/static/css/responsive.css?v=1">
     <link rel="stylesheet" href="/static/css/ipad.css?v=4">
+    <!-- 气泡单词CSS -->
+    <link rel="stylesheet" href="/static/css/bubble-words.css?v=1">
+    <!-- 紧急字体修复CSS - 放在最后确保最高优先级 -->
+    <link rel="stylesheet" href="/static/css/font-emergency-fix.css?v=1">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -232,7 +237,12 @@
     </div>
 
     <script src="/static/js/responsive-grid.js?v=1"></script>
+    <script src="/static/js/responsive-text.js?v=1"></script>
+    <!-- 气泡单词JS - 在主应用前加载 -->
+    <script src="/static/js/bubble-words.js?v=1"></script>
     <script src="/static/js/ipad-layout.js?v=3"></script>
-    <script src="/static/js/app.js?v=6"></script>
+    <script src="/static/js/app.js?v=8"></script>
+    <!-- 字体修复JS - 放在最后确保能覆盖所有样式 -->
+    <script src="/static/js/font-fix.js?v=1"></script>
 </body>
 </html>

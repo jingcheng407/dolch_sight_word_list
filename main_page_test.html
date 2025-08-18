@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 主页面气泡测试</title>
+    
+    <!-- 引入必要的CSS -->
+    <link rel="stylesheet" href="/static/css/style.css?v=5">
+    <link rel="stylesheet" href="/static/css/bubble-words.css?v=1">
+    
+    <style>
+        .debug-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 300px;
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            z-index: 9999;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .debug-item {
+            margin: 5px 0;
+            padding: 3px;
+            border-radius: 3px;
+        }
+        .debug-success { background: #d4edda; color: #155724; }
+        .debug-error { background: #f8d7da; color: #721c24; }
+        .debug-warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="kids-title">🧪 主页面气泡测试</h1>
+            <p class="subtitle-kids">检查为什么气泡没有在主页面显示</p>
+        </header>
+        
+        <!-- 测试用的简化版单词网格 -->
+        <div id="words-grid" class="words-grid-kids">
+            <div class="welcome-message">
+                <span class="welcome-emoji">👋</span>
+                <p>正在加载气泡...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 调试面板 -->
+    <div class="debug-panel">
+        <h4>🐛 调试信息</h4>
+        <div id="debug-log"></div>
+        <button onclick="manualTest()" style="margin-top: 10px; width: 100%; padding: 5px;">🔄 手动测试</button>
+    </div>
+    
+    <!-- JavaScript文件按主页面的顺序引入 -->
+    <script src="/static/js/responsive-grid.js?v=1"></script>
+    <script src="/static/js/responsive-text.js?v=1"></script>
+    <script src="/static/js/bubble-words.js?v=1"></script>
+    <script src="/static/js/ipad-layout.js?v=3"></script>
+    <script src="/static/js/app.js?v=8"></script>
+    <script src="/static/js/font-fix.js?v=1"></script>
+    
+    <script>
+        const debugLog = document.getElementById('debug-log');
+        
+        function addDebugMessage(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `debug-item debug-${type}`;
+            div.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            debugLog.appendChild(div);
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+        
+        // 监控脚本加载
+        function checkScriptStatus() {
+            addDebugMessage('开始检查脚本状态...', 'info');
+            
+            // 检查BubbleWordsManager
+            if (typeof BubbleWordsManager !== 'undefined') {
+                addDebugMessage('✅ BubbleWordsManager已定义', 'success');
+                
+                // 尝试创建实例
+                try {
+                    const manager = new BubbleWordsManager();
+                    addDebugMessage('✅ BubbleWordsManager实例创建成功', 'success');
+                } catch (e) {
+                    addDebugMessage(`❌ BubbleWordsManager实例创建失败: ${e.message}`, 'error');
+                }
+            } else {
+                addDebugMessage('❌ BubbleWordsManager未定义', 'error');
+            }
+            
+            // 检查DolchApp
+            if (typeof DolchApp !== 'undefined') {
+                addDebugMessage('✅ DolchApp类已定义', 'success');
+            } else {
+                addDebugMessage('❌ DolchApp类未定义', 'error');
+            }
+            
+            // 检查全局app实例
+            if (typeof window.app !== 'undefined') {
+                addDebugMessage('✅ window.app实例存在', 'success');
+                addDebugMessage(`useBubbleMode: ${window.app.useBubbleMode}`, 'info');
+                addDebugMessage(`bubbleManager: ${window.app.bubbleManager ? '存在' : '不存在'}`, window.app.bubbleManager ? 'success' : 'warning');
+                addDebugMessage(`words数量: ${window.app.words ? window.app.words.length : '未定义'}`, 'info');
+            } else {
+                addDebugMessage('❌ window.app实例不存在', 'error');
+            }
+        }
+        
+        function manualTest() {
+            addDebugMessage('开始手动测试...', 'info');
+            
+            if (window.app && window.app.bubbleManager && window.app.words) {
+                const grid = document.getElementById('words-grid');
+                const testWords = window.app.words.slice(0, 10); // 只取前10个单词测试
+                
+                addDebugMessage(`使用${testWords.length}个单词创建气泡`, 'info');
+                
+                try {
+                    window.app.bubbleManager.createBubbleGrid(testWords, grid);
+                    addDebugMessage('✅ 手动创建气泡成功！', 'success');
+                } catch (e) {
+                    addDebugMessage(`❌ 手动创建气泡失败: ${e.message}`, 'error');
+                }
+            } else {
+                addDebugMessage('❌ 缺少必要的组件进行测试', 'error');
+            }
+        }
+        
+        // 页面加载完成后检查
+        window.addEventListener('load', () => {
+            setTimeout(checkScriptStatus, 1000);
+            
+            // 每5秒检查一次app状态
+            setInterval(() => {
+                if (window.app && window.app.words && window.app.words.length > 0 && !document.querySelector('.bubble-word-card')) {
+                    addDebugMessage('⚠️ 单词已加载但没有气泡显示', 'warning');
+                }
+            }, 5000);
+        });
+        
+        // 监听应用初始化完成事件
+        document.addEventListener('DOMContentLoaded', () => {
+            addDebugMessage('DOM内容加载完成', 'info');
+        });
+        
+        // 覆盖console.log以捕获应用日志
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            if (args.length > 0) {
+                addDebugMessage(`控制台: ${args.join(' ')}`, 'info');
+            }
+        };
+        
+        const originalError = console.error;
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            if (args.length > 0) {
+                addDebugMessage(`错误: ${args.join(' ')}`, 'error');
+            }
+        };
+    </script>
+</body>
+</html>

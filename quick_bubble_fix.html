@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 快乐学单词 - 气泡版</title>
+    
+    <!-- 基础样式 -->
+    <link rel="stylesheet" href="/static/css/style.css?v=5">
+    <link rel="stylesheet" href="/static/css/bubble-words.css?v=1">
+    
+    <style>
+        /* 确保气泡正确显示 */
+        .bubble-word-card {
+            width: 80px !important;
+            height: 80px !important;
+            border-radius: 50% !important;
+            cursor: pointer !important;
+            margin: 10px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .words-grid-bubbles {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 15px !important;
+            padding: 20px !important;
+            justify-content: center !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="kids-title">
+                <span class="emoji-big">🌈</span> 
+                快乐学单词 
+                <span class="emoji-big">🎈</span>
+            </h1>
+            <p class="subtitle-kids">点击气泡探索单词！</p>
+        </header>
+
+        <div class="welcome-message">
+            <span class="welcome-emoji">👋</span>
+            <p>点击彩色气泡，发现隐藏的英语单词！</p>
+        </div>
+        
+        <div id="words-grid">
+            <!-- 气泡将在这里生成 -->
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="/static/js/bubble-words.js?v=1"></script>
+    
+    <script>
+        // 测试单词
+        const words = [
+            {word: 'cat', category: 'noun'},
+            {word: 'dog', category: 'noun'},
+            {word: 'run', category: 'verb'},
+            {word: 'jump', category: 'verb'},
+            {word: 'happy', category: 'adjective'},
+            {word: 'beautiful', category: 'adjective'},
+            {word: 'quickly', category: 'adverb'},
+            {word: 'elephant', category: 'noun'},
+            {word: 'butterfly', category: 'noun'},
+            {word: 'rainbow', category: 'noun'},
+            {word: 'sunshine', category: 'noun'},
+            {word: 'wonderful', category: 'adjective'},
+            {word: 'incredible', category: 'adjective'},
+            {word: 'adventure', category: 'noun'},
+            {word: 'swimming', category: 'verb'},
+            {word: 'dancing', category: 'verb'}
+        ];
+        
+        // 立即创建气泡
+        function createBubbles() {
+            const container = document.getElementById('words-grid');
+            
+            if (typeof BubbleWordsManager !== 'undefined') {
+                const manager = new BubbleWordsManager();
+                manager.createBubbleGrid(words, container);
+                console.log('✅ 气泡创建成功！');
+            } else {
+                console.error('❌ BubbleWordsManager 未找到');
+                container.innerHTML = '<p style="text-align: center; color: red;">气泡管理器加载失败</p>';
+            }
+        }
+        
+        // 页面加载完成后立即创建气泡
+        window.addEventListener('load', () => {
+            console.log('📄 页面加载完成，创建气泡...');
+            setTimeout(createBubbles, 100);
+        });
+        
+        // 备用创建方法
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(createBubbles, 500);
+        });
+        
+        // 手动创建按钮
+        setTimeout(() => {
+            const button = document.createElement('button');
+            button.textContent = '🔄 手动创建气泡';
+            button.style.cssText = `
+                position: fixed; 
+                top: 10px; 
+                right: 10px; 
+                padding: 10px; 
+                z-index: 1000;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            `;
+            button.onclick = createBubbles;
+            document.body.appendChild(button);
+        }, 1000);
+    </script>
+</body>
+</html>

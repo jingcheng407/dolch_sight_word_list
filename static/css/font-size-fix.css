@@ -1,0 +1,171 @@
+/* 
+ * 字体大小修复 - 强制覆盖所有样式
+ * 解决字体过大被截断的问题
+ */
+
+/* ===== 强制字体大小修复 ===== */
+
+/* 使用最高特异性强制应用合适的字体大小 */
+.words-grid-kids .word-card .word-text,
+.words-grid .word-card .word-text,
+#words-grid .word-card .word-text,
+.word-card .word-text,
+.word-text {
+    font-size: 1.2rem !important;
+    line-height: 1.3 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+}
+
+.words-grid-kids .word-card .word-category,
+.words-grid .word-card .word-category,
+#words-grid .word-card .word-category,
+.word-card .word-category,
+.word-category {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+}
+
+/* ===== 单词卡片容器修复 ===== */
+
+.word-card {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 15px 10px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    min-height: 80px !important;
+    max-height: 120px !important;
+}
+
+/* ===== 响应式调整 ===== */
+
+/* 超小屏幕 */
+@media (max-width: 480px) {
+    .word-text {
+        font-size: 1rem !important;
+    }
+    
+    .word-category {
+        font-size: 0.7rem !important;
+    }
+    
+    .word-card {
+        min-height: 70px !important;
+        max-height: 100px !important;
+        padding: 12px 8px !important;
+    }
+}
+
+/* 小屏幕 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .word-text {
+        font-size: 1.1rem !important;
+    }
+    
+    .word-category {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* 中等屏幕 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .word-text {
+        font-size: 1.3rem !important;
+    }
+    
+    .word-category {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* 大屏幕 */
+@media (min-width: 1025px) {
+    .word-text {
+        font-size: 1.4rem !important;
+    }
+    
+    .word-category {
+        font-size: 0.85rem !important;
+    }
+}
+
+/* ===== 长单词特殊处理 ===== */
+
+/* JavaScript会动态添加这些类 */
+.word-text.long-word {
+    font-size: 1rem !important;
+}
+
+.word-text.very-long-word {
+    font-size: 0.9rem !important;
+}
+
+/* ===== iPad特殊样式修复 ===== */
+
+.word-text-ipad,
+.word-card-ipad .word-text-ipad {
+    font-size: 1.3rem !important;
+    line-height: 1.3 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.word-category-ipad,
+.word-card-ipad .word-category-ipad {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+/* ===== 悬停状态修复 ===== */
+
+.word-card:hover .word-text,
+.word-card:hover .word-category {
+    /* 保持悬停时的字体大小不变 */
+    transform: none !important;
+}
+
+/* ===== 网格布局优化 ===== */
+
+.words-grid-kids,
+.words-grid,
+#words-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+    gap: 15px !important;
+    padding: 20px !important;
+}
+
+@media (max-width: 480px) {
+    .words-grid-kids,
+    .words-grid,
+    #words-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
+        gap: 10px !important;
+        padding: 15px !important;
+    }
+}
+
+@media (min-width: 1025px) {
+    .words-grid-kids,
+    .words-grid,
+    #words-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+    }
+}
