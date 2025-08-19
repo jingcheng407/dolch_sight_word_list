@@ -94,21 +94,32 @@ class DolchApp {
 
     async loadWords() {
         try {
-            console.log('Fetching words from API...');
-            const response = await fetch('/api/words');
+            console.log('Fetching words from static JSON...');
+            const response = await fetch('/data/words.json');
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const data = await response.json();
-            console.log('Raw API response:', data);
+            console.log('Raw JSON response:', data);
             
-            if (!this.validateWordsData(data)) {
+            // 将对象格式转换为数组格式
+            const wordsArray = [];
+            Object.keys(data).forEach(levelKey => {
+                const levelData = data[levelKey];
+                if (levelData.words && Array.isArray(levelData.words)) {
+                    wordsArray.push(...levelData.words);
+                }
+            });
+            
+            console.log('Converted to words array:', wordsArray.length);
+            
+            if (!this.validateWordsData(wordsArray)) {
                 throw new Error('Invalid words data format');
             }
             
-            this.words = data;
+            this.words = wordsArray;
             console.log('Words validation passed. Loaded words:', this.words.length);
             
             // 验证每个单词对象
@@ -544,8 +555,44 @@ class DolchApp {
     }
 
     async getRandomWords(count) {
-        const response = await fetch(`/api/words/random?count=${count}`);
-        return await response.json();
+        // 从已加载的单词中随机选择
+        if (!this.words || this.words.length === 0) {
+            throw new Error('No words loaded');
+        }
+        
+        const shuffled = [...this.words].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, count);
+    }
+
+    async generateQuiz(count) {
+        // 从已加载的单词中生成测验
+        if (!this.words || this.words.length === 0) {
+            throw new Error('No words loaded');
+        }
+        
+        const shuffled = [...this.words].sort(() => Math.random() - 0.5);
+        const quizWords = shuffled.slice(0, count);
+        
+        return quizWords.map(word => {
+            // 生成错误选项
+            const wrongOptions = this.words
+                .filter(w => w.word !== word.word)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3)
+                .map(w => w.word);
+            
+            // 创建所有选项并打乱
+            const allOptions = [word.word, ...wrongOptions].sort(() => Math.random() - 0.5);
+            
+            return {
+                word: word.word,
+                pronunciation: word.pronunciation,
+                example: word.example,
+                category: word.category,
+                options: allOptions,
+                correctAnswer: word.word
+            };
+        });
     }
 
     startFlashcardPractice() {
@@ -643,8 +690,8 @@ class DolchApp {
             const selectedDifficulty = document.querySelector('.quiz-difficulty.selected');
             const count = selectedDifficulty ? selectedDifficulty.dataset.count : 8;
             
-            const response = await fetch(`/api/quiz?count=${count}`);
-            this.currentQuiz = await response.json();
+            // 生成测验数据
+            this.currentQuiz = await this.generateQuiz(parseInt(count));
             this.quizIndex = 0;
             this.quizScore = 0;
 
@@ -764,9 +811,8 @@ class DolchApp {
         this.showLoading(true);
         
         try {
-            const response = await fetch('/api/stats');
-            const stats = await response.json();
-            
+            // 生成本地统计数据
+            const stats = this.generateStats();
             this.renderStats(stats);
         } catch (error) {
             console.error('加载统计失败:', error);
@@ -776,45 +822,88 @@ class DolchApp {
         this.showLoading(false);
     }
 
+    generateStats() {
+        // 基于本地数据生成统计
+        const totalWords = this.words.length;
+        const learnedCount = this.learnedWords.size;
+        const progress = Math.round((learnedCount / totalWords) * 100);
+        
+        // 按类别统计
+        const categoryStats = {};
+        this.words.forEach(word => {
+            const category = word.category;
+            if (!categoryStats[category]) {
+                categoryStats[category] = { total: 0, learned: 0 };
+            }
+            categoryStats[category].total++;
+            if (this.learnedWords.has(word.word)) {
+                categoryStats[category].learned++;
+            }
+        });
+        
+        return {
+            totalWords,
+            learnedWords: learnedCount,
+            progress,
+            categoryStats,
+            achievements: this.generateAchievements(learnedCount, totalWords)
+        };
+    }
+
+    generateAchievements(learned, total) {
+        const achievements = [];
+        
+        if (learned >= 1) {
+            achievements.push({ icon: '🌟', title: '开始学习', description: '学会了第一个单词！' });
+        }
+        if (learned >= 5) {
+            achievements.push({ icon: '🎉', title: '小小学者', description: '学会了5个单词！' });
+        }
+        if (learned >= 10) {
+            achievements.push({ icon: '🏆', title: '单词达人', description: '学会了10个单词！' });
+        }
+        if (learned >= total * 0.5) {
+            achievements.push({ icon: '🎯', title: '努力学习', description: '完成了一半的单词！' });
+        }
+        if (learned === total) {
+            achievements.push({ icon: '👑', title: '完美掌握', description: '学会了所有单词！' });
+        }
+        
+        return achievements;
+    }
+
     renderStats(stats) {
         const learnedCount = this.learnedWords.size;
-        const learnedPercentage = Math.round((learnedCount / stats.total_words) * 100);
+        const learnedPercentage = Math.round((learnedCount / stats.totalWords) * 100);
+
+        // 生成按类别统计的HTML
+        const categoryStatsHTML = Object.entries(stats.categoryStats).map(([category, categoryData]) => `
+            <div class="stat-item">
+                <span class="stat-label">${category}</span>
+                <span class="stat-value">${categoryData.learned}/${categoryData.total}</span>
+            </div>
+        `).join('');
 
         document.getElementById('word-stats').innerHTML = `
             <div class="stat-item">
                 <span class="stat-label">总单词数</span>
-                <span class="stat-value">${stats.total_words}</span>
+                <span class="stat-value">${stats.totalWords}</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">已学习</span>
                 <span class="stat-value">${learnedCount} (${learnedPercentage}%)</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">动词</span>
-                <span class="stat-value">${stats.categories.verbs}</span>
+                <span class="stat-label">进度</span>
+                <span class="stat-value">${stats.progress}%</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">形容词</span>
-                <span class="stat-value">${stats.categories.adjectives}</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">代词</span>
-                <span class="stat-value">${stats.categories.pronouns}</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">介词</span>
-                <span class="stat-value">${stats.categories.prepositions}</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">其他</span>
-                <span class="stat-value">${stats.categories.others}</span>
-            </div>
+            ${categoryStatsHTML}
         `;
 
-        const achievements = this.getAchievements(learnedCount, stats.total_words);
-        document.getElementById('achievements').innerHTML = achievements.map(achievement => `
-            <div class="achievement ${achievement.unlocked ? 'unlocked' : 'locked'}">
-                <i class="fas ${achievement.icon}"></i>
+        // 渲染成就
+        document.getElementById('achievements').innerHTML = stats.achievements.map(achievement => `
+            <div class="achievement unlocked">
+                <div class="achievement-icon">${achievement.icon}</div>
                 <div class="achievement-info">
                     <h4>${achievement.title}</h4>
                     <p>${achievement.description}</p>
@@ -823,34 +912,6 @@ class DolchApp {
         `).join('');
     }
 
-    getAchievements(learned, total) {
-        return [
-            {
-                title: '初学者',
-                description: '学习了第一个单词',
-                icon: 'fa-star',
-                unlocked: learned >= 1
-            },
-            {
-                title: '学习能手',
-                description: '学习了10个单词',
-                icon: 'fa-medal',
-                unlocked: learned >= 10
-            },
-            {
-                title: '词汇达人',
-                description: '学习了20个单词',
-                icon: 'fa-trophy',
-                unlocked: learned >= 20
-            },
-            {
-                title: '完美主义者',
-                description: '学完所有单词',
-                icon: 'fa-crown',
-                unlocked: learned === total
-            }
-        ];
-    }
 
     // 工具方法
     showLoading(show) {
@@ -1396,8 +1457,6 @@ const additionalStyles = `
 }
 </style>
 `;
-
-}
 
 // 气泡管理器初始化方法 (临时放在类外部，稍后修复)
 DolchApp.prototype.initBubbleManager = function() {

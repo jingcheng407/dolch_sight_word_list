@@ -68,13 +68,24 @@ class LevelSelector {
 
         try {
             console.log('📡 加载等级数据...');
-            const response = await fetch('/api/levels');
+            const response = await fetch('/data/words.json');
             
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
-            this.levels = await response.json();
+            const levelsData = await response.json();
+            
+            // 将对象转换为数组格式
+            this.levels = Object.keys(levelsData).map(key => ({
+                key: key,
+                level: levelsData[key].level,
+                description: levelsData[key].description,
+                age_range: levelsData[key].age_range,
+                word_count: levelsData[key].words.length,
+                words: levelsData[key].words
+            }));
+            
             console.log('✅ 等级数据加载成功:', this.levels);
             
         } catch (error) {
@@ -240,21 +251,19 @@ class LevelSelector {
         
         console.log(`✅ 确认选择等级: ${selectedLevelData.level}`);
         
-        // 加载该等级的单词数据
+        // 直接使用已加载的等级数据
         try {
-            const response = await fetch(`/api/words/${this.selectedLevel}`);
-            const data = await response.json();
-            
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            
             // 调用回调函数，传递等级数据
             if (this.onLevelChange) {
                 this.onLevelChange({
                     level: this.selectedLevel,
-                    levelInfo: data.level_info,
-                    words: data.words
+                    levelInfo: {
+                        level: selectedLevelData.level,
+                        description: selectedLevelData.description,
+                        age_range: selectedLevelData.age_range,
+                        word_count: selectedLevelData.word_count
+                    },
+                    words: selectedLevelData.words
                 });
             }
             

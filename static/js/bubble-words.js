@@ -78,8 +78,8 @@ class BubbleWordsManager {
         this.currentLevel = level;
         this.totalWords = words.length;
         
-        // 从localStorage恢复已学习的单词状态
-        this.loadLearnedWords(level);
+        // 从localStorage加载已学习的单词列表
+        const learnedWords = this.loadLearnedWords(level);
 
         // 创建气泡容器
         const bubbleContainer = document.createElement('div');
@@ -96,13 +96,21 @@ class BubbleWordsManager {
         words.forEach((wordData, index) => {
             const bubble = this.createBubble(wordData, index);
             wordsGrid.appendChild(bubble);
+            
+            // 如果这个单词已经学习过，恢复其状态
+            if (learnedWords.includes(wordData.word)) {
+                const bubbleId = `bubble-${index}`;
+                this.revealedBubbles.add(bubbleId);
+                bubble.classList.add('revealed', 'learned');
+                console.log(`✅ 恢复已学习单词: ${wordData.word}`);
+            }
         });
 
         bubbleContainer.appendChild(wordsGrid);
         container.appendChild(bubbleContainer);
         
-        // 恢复已学习单词的显示状态
-        this.restoreLearnedWordsDisplay();
+        // 更新进度显示
+        this.updateProgressIndicator();
 
         console.log(`🫧 创建了 ${words.length} 个气泡 - 级别: ${level}`);
     }
@@ -476,6 +484,15 @@ class BubbleWordsManager {
             if (!existing.includes(word)) {
                 existing.push(word);
                 localStorage.setItem(key, JSON.stringify(existing));
+                console.log(`💾 保存已学习单词: ${word} (级别: ${level})`);
+                
+                // 同时保存学习时间戳
+                const timestampKey = `learned_words_timestamp_${level}`;
+                const timestamps = JSON.parse(localStorage.getItem(timestampKey) || '{}');
+                timestamps[word] = new Date().getTime();
+                localStorage.setItem(timestampKey, JSON.stringify(timestamps));
+            } else {
+                console.log(`📝 单词已存在于已学习列表: ${word}`);
             }
         } catch (e) {
             console.warn('无法保存已学习单词:', e);
@@ -490,33 +507,22 @@ class BubbleWordsManager {
             const key = `learned_words_${level}`;
             const learnedWords = JSON.parse(localStorage.getItem(key) || '[]');
             
-            // 将已学习的单词标记为已揭示
-            this.bubbles.forEach((bubbleInfo, bubbleId) => {
-                if (learnedWords.includes(bubbleInfo.wordData.word)) {
-                    this.revealedBubbles.add(bubbleId);
-                }
-            });
+            console.log(`📚 准备加载 ${learnedWords.length} 个已学习单词 - 级别: ${level}`);
+            console.log('已学习单词列表:', learnedWords);
             
-            console.log(`📚 加载了 ${learnedWords.length} 个已学习单词 - 级别: ${level}`);
+            return learnedWords;
         } catch (e) {
             console.warn('无法加载已学习单词:', e);
+            return [];
         }
     }
 
     /**
-     * 恢复已学习单词的显示状态
+     * 恢复已学习单词的显示状态（已弃用，功能合并到createBubbleGrid中）
      */
     restoreLearnedWordsDisplay() {
-        this.bubbles.forEach((bubbleInfo, bubbleId) => {
-            if (this.revealedBubbles.has(bubbleId)) {
-                const bubble = bubbleInfo.element;
-                bubble.classList.add('revealed', 'learned');
-                console.log(`✅ 恢复已学习单词显示: ${bubbleInfo.wordData.word}`);
-            }
-        });
-        
-        // 更新进度指示器
-        this.updateProgressIndicator();
+        // 此方法已不再需要，功能已合并到 createBubbleGrid 中
+        console.log('⚠️ restoreLearnedWordsDisplay 方法已弃用');
     }
 
     /**

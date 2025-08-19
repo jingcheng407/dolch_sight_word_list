@@ -60,10 +60,17 @@
         }
         
         .game-modes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
             margin: 30px 0;
+        }
+        
+        .game-modes-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .game-mode-card {
@@ -167,8 +174,14 @@
                 font-size: 28px;
             }
             
-            .game-modes {
-                grid-template-columns: 1fr;
+            .game-modes-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .game-mode-card {
+                max-width: 350px;
+                width: 100%;
             }
         }
     </style>
@@ -188,78 +201,84 @@
         
         <!-- 游戏模式选择 -->
         <div class="game-modes cartoon" id="game-modes" style="display: none;">
-            <div class="game-mode-card cartoon" onclick="startBubbleMode()">
-                <div class="game-mode-icon cartoon">🫧</div>
-                <h3 class="game-mode-title cartoon" style="color: #4caf50;">气泡探索</h3>
-                <p class="game-mode-description">
-                    点击彩色气泡，发现隐藏的单词。气泡会聚焦放大，其他虚化，让学习更专注。
-                </p>
-                <div class="game-mode-features">
-                    ✨ 聚焦效果 • 🔊 语音朗读 • 🎨 多彩主题
-                </div>
-                <div class="game-unlock-status cartoon">
-                    <span class="unlock-icon unlocked">🔓</span>
-                    <span class="unlock-text unlocked">已解锁</span>
-                </div>
-            </div>
-            
-            <div class="game-mode-card cartoon" id="word-catch-card" onclick="tryStartWordCatchGame()">
-                <div class="game-mode-icon cartoon">🎯</div>
-                <h3 class="game-mode-title cartoon" style="color: #2196f3;">单词捕捉</h3>
-                <p class="game-mode-description">
-                    从天空掉落的单词中，快速找到并点击听到的目标单词！
-                </p>
-                <div class="game-mode-features">
-                    ☁️ 天空掉落 • 🎯 精准捕捉 • ⚡ 升级挑战
-                </div>
-                <div class="game-unlock-status cartoon" id="catch-unlock-status">
-                    <span class="unlock-icon locked">🔒</span>
-                    <span class="unlock-text locked">完成气泡探索解锁</span>
+            <!-- 第一行：气泡探索 -->
+            <div class="game-modes-row">
+                <div class="game-mode-card cartoon" onclick="startBubbleMode()" style="max-width: 400px; width: 100%;">
+                    <div class="game-mode-icon cartoon">🫧</div>
+                    <h3 class="game-mode-title cartoon" style="color: #4caf50;">气泡探索</h3>
+                    <p class="game-mode-description">
+                        点击彩色气泡，发现隐藏的单词。气泡会聚焦放大，其他虚化，让学习更专注。
+                    </p>
+                    <div class="game-mode-features">
+                        ✨ 聚焦效果 • 🔊 语音朗读 • 🎨 多彩主题
+                    </div>
+                    <div class="game-unlock-status cartoon">
+                        <span class="unlock-icon unlocked">🔓</span>
+                        <span class="unlock-text unlocked">已解锁</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="game-mode-card cartoon" id="word-speed-card" onclick="tryStartWordSpeedGame()">
-                <div class="game-mode-icon cartoon">⚡</div>
-                <h3 class="game-mode-title cartoon" style="color: #ff5722;">单词竞速</h3>
-                <p class="game-mode-description">
-                    60秒极速挑战，听音快速识别正确单词，挑战你的反应极限！
-                </p>
-                <div class="game-mode-features">
-                    ⏱️ 限时挑战 • 🔥 连击系统 • 🏆 竞速排行
+            <!-- 第二行：其他四个游戏模式 -->
+            <div class="game-modes-row">
+                <div class="game-mode-card cartoon" id="word-catch-card" onclick="tryStartWordCatchGame()">
+                    <div class="game-mode-icon cartoon">🎯</div>
+                    <h3 class="game-mode-title cartoon" style="color: #2196f3;">单词捕捉</h3>
+                    <p class="game-mode-description">
+                        从天空掉落的单词中，快速找到并点击听到的目标单词！
+                    </p>
+                    <div class="game-mode-features">
+                        ☁️ 天空掉落 • 🎯 精准捕捉 • ⚡ 升级挑战
+                    </div>
+                    <div class="game-unlock-status cartoon" id="catch-unlock-status">
+                        <span class="unlock-icon locked">🔒</span>
+                        <span class="unlock-text locked">完成气泡探索解锁</span>
+                    </div>
                 </div>
-                <div class="game-unlock-status cartoon" id="speed-unlock-status">
-                    <span class="unlock-icon locked">🔒</span>
-                    <span class="unlock-text locked">完成气泡探索解锁</span>
+                
+                <div class="game-mode-card cartoon" id="word-speed-card" onclick="tryStartWordSpeedGame()">
+                    <div class="game-mode-icon cartoon">⚡</div>
+                    <h3 class="game-mode-title cartoon" style="color: #ff5722;">单词竞速</h3>
+                    <p class="game-mode-description">
+                        60秒极速挑战，听音快速识别正确单词，挑战你的反应极限！
+                    </p>
+                    <div class="game-mode-features">
+                        ⏱️ 限时挑战 • 🔥 连击系统 • 🏆 竞速排行
+                    </div>
+                    <div class="game-unlock-status cartoon" id="speed-unlock-status">
+                        <span class="unlock-icon locked">🔒</span>
+                        <span class="unlock-text locked">完成气泡探索解锁</span>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="game-mode-card cartoon" id="memory-card" onclick="tryStartMemoryGame()">
-                <div class="game-mode-icon cartoon">🧠</div>
-                <h3 class="game-mode-title cartoon" style="color: #9c27b0;">记忆翻卡</h3>
-                <p class="game-mode-description">
-                    翻开卡片找到相同的单词配对，锻炼记忆力和单词识别能力。
-                </p>
-                <div class="game-mode-features">
-                    🃏 翻卡配对 • ⏰ 计时挑战 • 🎯 准确率统计
+                
+                <div class="game-mode-card cartoon" id="memory-card" onclick="tryStartMemoryGame()">
+                    <div class="game-mode-icon cartoon">🧠</div>
+                    <h3 class="game-mode-title cartoon" style="color: #9c27b0;">记忆翻卡</h3>
+                    <p class="game-mode-description">
+                        翻开卡片找到相同的单词配对，锻炼记忆力和单词识别能力。
+                    </p>
+                    <div class="game-mode-features">
+                        🃏 翻卡配对 • ⏰ 计时挑战 • 🎯 准确率统计
+                    </div>
+                    <div class="game-unlock-status cartoon" id="memory-unlock-status">
+                        <span class="unlock-icon locked">🔒</span>
+                        <span class="unlock-text locked">完成气泡探索解锁</span>
+                    </div>
                 </div>
-                <div class="game-unlock-status cartoon" id="memory-unlock-status">
-                    <span class="unlock-icon locked">🔒</span>
-                    <span class="unlock-text locked">完成气泡探索解锁</span>
-                </div>
-            </div>
-            
-            <div class="game-mode-card cartoon" id="spelling-card" onclick="tryStartSpellingGame()">
-                <div class="game-mode-icon cartoon">✏️</div>
-                <h3 class="game-mode-title cartoon" style="color: #ff9800;">单词拼写</h3>
-                <p class="game-mode-description">
-                    听声音拼出正确的单词，提高拼写能力和单词记忆。
-                </p>
-                <div class="game-mode-features">
-                    🔊 听音拼写 • ⌨️ 虚拟键盘 • 💡 智能提示
-                </div>
-                <div class="game-unlock-status cartoon" id="spelling-unlock-status">
-                    <span class="unlock-icon locked">🔒</span>
-                    <span class="unlock-text locked">完成气泡探索解锁</span>
+                
+                <div class="game-mode-card cartoon" id="spelling-card" onclick="tryStartSpellingGame()">
+                    <div class="game-mode-icon cartoon">✏️</div>
+                    <h3 class="game-mode-title cartoon" style="color: #ff9800;">单词拼写</h3>
+                    <p class="game-mode-description">
+                        听声音拼出正确的单词，提高拼写能力和单词记忆。
+                    </p>
+                    <div class="game-mode-features">
+                        🔊 听音拼写 • ⌨️ 虚拟键盘 • 💡 智能提示
+                    </div>
+                    <div class="game-unlock-status cartoon" id="spelling-unlock-status">
+                        <span class="unlock-icon locked">🔒</span>
+                        <span class="unlock-text locked">完成气泡探索解锁</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,7 +292,7 @@
     <!-- JavaScript 文件 -->
     <script src="/static/js/achievement-system.js?v=1"></script>
     <script src="/static/js/learned-words-filter.js?v=1"></script>
-    <script src="/static/js/level-selector.js?v=1"></script>
+    <script src="/static/js/level-selector.js?v=4"></script>
     <script src="/static/js/bubble-words.js?v=2"></script>
     <script src="/static/js/memory-game.js?v=1"></script>
     <script src="/static/js/spelling-game.js?v=1"></script>
