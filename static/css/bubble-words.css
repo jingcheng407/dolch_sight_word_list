@@ -10,7 +10,7 @@
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  float: none !important;
+  /* 移除不必要的float声明 */
   position: absolute !important;
   left: 0 !important;
   top: 50px !important;

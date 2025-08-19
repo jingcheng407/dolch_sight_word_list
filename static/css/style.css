@@ -658,6 +658,7 @@ body::before {
     display: flex;
     gap: 15px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .speak-btn, .practice-btn {
@@ -1341,6 +1342,7 @@ body::before {
     gap: 15px;
     justify-content: center;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .speak-btn-kids, .practice-btn-kids {

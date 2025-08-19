@@ -1,0 +1,197 @@
+/**
+ * Flexbox工具类系统
+ * 为Dolch Sight Words项目提供统一的布局工具类
+ */
+
+/* ===== 基础Flex ===== */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+
+/* ===== Flex方向 ===== */
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+.flex-row-reverse { flex-direction: row-reverse; }
+.flex-col-reverse { flex-direction: column-reverse; }
+
+/* ===== 主轴对齐 ===== */
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.justify-evenly { justify-content: space-evenly; }
+
+/* ===== 交叉轴对齐 ===== */
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+.items-baseline { align-items: baseline; }
+
+/* ===== 内容对齐 ===== */
+.content-start { align-content: flex-start; }
+.content-center { align-content: center; }
+.content-end { align-content: flex-end; }
+.content-between { align-content: space-between; }
+.content-around { align-content: space-around; }
+.content-evenly { align-content: space-evenly; }
+
+/* ===== 换行 ===== */
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.flex-wrap-reverse { flex-wrap: wrap-reverse; }
+
+/* ===== 间距系统 ===== */
+.gap-4 { gap: 4px; }
+.gap-6 { gap: 6px; }
+.gap-8 { gap: 8px; }
+.gap-10 { gap: 10px; }
+.gap-12 { gap: 12px; }
+.gap-15 { gap: 15px; }
+.gap-16 { gap: 16px; }
+.gap-20 { gap: 20px; }
+.gap-24 { gap: 24px; }
+.gap-30 { gap: 30px; }
+
+/* ===== Flex项目属性 ===== */
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-initial { flex: 0 1 auto; }
+.flex-none { flex: none; }
+
+/* 特定比例 */
+.flex-2 { flex: 2 1 0%; }
+.flex-3 { flex: 3 1 0%; }
+
+/* ===== 自对齐 ===== */
+.self-auto { align-self: auto; }
+.self-start { align-self: flex-start; }
+.self-center { align-self: center; }
+.self-end { align-self: flex-end; }
+.self-stretch { align-self: stretch; }
+.self-baseline { align-self: baseline; }
+
+/* ===== 组合工具类（常用模式） ===== */
+
+/* 居中 */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 分布式布局 */
+.between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.around-center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* 卡片布局 */
+.card-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+/* 表单行 */
+.form-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===== 响应式工具类 ===== */
+@media (max-width: 768px) {
+    .mobile-col { flex-direction: column; }
+    .mobile-center { justify-content: center; }
+    .mobile-gap-8 { gap: 8px; }
+    .mobile-gap-12 { gap: 12px; }
+}
+
+@media (min-width: 769px) {
+    .desktop-row { flex-direction: row; }
+    .desktop-between { justify-content: space-between; }
+    .desktop-gap-20 { gap: 20px; }
+    .desktop-gap-24 { gap: 24px; }
+}
+
+/* ===== 特定于项目的工具类 ===== */
+
+/* 游戏模式卡片布局 */
+.game-modes-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* 等级选择器布局 */
+.level-selector-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+/* 进度指示器布局 */
+.progress-flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* 按钮组布局 */
+.button-group-flex {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* 徽章容器 */
+.badge-flex {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* 图标文字组合 */
+.icon-text-flex {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
