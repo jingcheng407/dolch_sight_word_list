@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { WordCard } from './WordCard';
-import { WordModal } from './WordModal';
+import { WordDetailPanel } from './WordDetailPanel';
 import { useWords } from '@/hooks/useWords';
 import { useAudio } from '@/hooks/useAudio';
 import { useResponsiveGrid } from '@/hooks/useResponsiveGrid';
@@ -12,6 +12,11 @@ export function LearnTab() {
   const { isEnabled, toggleAudio } = useAudio();
   const { columns, rows, maxItems } = useResponsiveGrid();
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
+
+  const handleGoToPractice = () => {
+    // TODO: 实现跳转到练习页面的逻辑
+    console.log('Go to practice');
+  };
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -70,40 +75,52 @@ export function LearnTab() {
         </button>
       </div>
 
-      {/* Words Grid */}
-      <div className="flex-1 overflow-hidden p-1">
-        <div 
-          className="grid gap-2 h-full w-full"
-          style={{
-            gridTemplateColumns: `repeat(${columns}, minmax(75px, 1fr))`,
-            gridTemplateRows: `repeat(${rows}, minmax(75px, 1fr))`,
-            maxHeight: '100%',
-            maxWidth: '100%'
-          }}
-        >
-          {filteredWords.slice(0, maxItems).map((word) => (
-            <div key={word.word} className="min-h-0 min-w-0">
-              <WordCard
-                word={word}
-                onClick={setSelectedWord}
-              />
-            </div>
-          ))}
-          
-          {/* 填充空白格子确保布局完整 */}
-          {Array.from({ length: Math.max(0, maxItems - filteredWords.length) }).map((_, index) => (
-            <div key={`empty-${index}`} className="min-h-0 min-w-0"></div>
-          ))}
+      {/* Main Content - 左右分栏布局 */}
+      <div className="flex-1 overflow-hidden flex gap-4">
+        {/* 左侧：单词网格 */}
+        <div className="flex-1 min-w-0 overflow-hidden">
+          <div 
+            className="grid gap-2 h-full w-full p-1"
+            style={{
+              gridTemplateColumns: `repeat(${Math.max(1, Math.floor(columns * 0.7))}, minmax(75px, 1fr))`,
+              gridTemplateRows: `repeat(${rows}, minmax(75px, 1fr))`,
+              maxHeight: '100%',
+              maxWidth: '100%'
+            }}
+          >
+            {filteredWords.slice(0, Math.floor(maxItems * 0.7)).map((word) => (
+              <div key={word.word} className="min-h-0 min-w-0">
+                <WordCard
+                  word={word}
+                  onClick={setSelectedWord}
+                />
+              </div>
+            ))}
+            
+            {/* 填充空白格子确保布局完整 */}
+            {Array.from({ length: Math.max(0, Math.floor(maxItems * 0.7) - filteredWords.length) }).map((_, index) => (
+              <div key={`empty-${index}`} className="min-h-0 min-w-0"></div>
+            ))}
+          </div>
+        </div>
+
+        {/* 右侧：详情面板 - 只在桌面端显示 */}
+        <div className="hidden lg:block w-80 flex-shrink-0">
+          <WordDetailPanel 
+            word={selectedWord} 
+            onGoToPractice={handleGoToPractice}
+          />
         </div>
       </div>
 
-      {/* Word Modal */}
+      {/* 移动端：底部详情面板 */}
       {selectedWord && (
-        <WordModal
-          word={selectedWord}
-          isOpen={!!selectedWord}
-          onClose={() => setSelectedWord(null)}
-        />
+        <div className="lg:hidden mt-4 max-h-60 flex-shrink-0">
+          <WordDetailPanel 
+            word={selectedWord} 
+            onGoToPractice={handleGoToPractice}
+          />
+        </div>
       )}
     </div>
   );
