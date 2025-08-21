@@ -41,4 +41,4 @@ export interface UserProgress {
 
 export type TabType = 'learn' | 'practice' | 'quiz' | 'stats';
 export type GameMode = 'flashcard' | 'bubble' | 'memory' | 'speed' | 'catch';
-export type QuizDifficulty = 'easy' | 'medium' | 'hard';
+export type QuizDifficulty = 'easy' | 'medium' | 'hard' | 'expert';

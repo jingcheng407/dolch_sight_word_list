@@ -7,10 +7,11 @@ import { cn } from '@/lib/utils';
 interface WordCardProps {
   word: Word;
   onClick?: (word: Word) => void;
+  className?: string;
 }
 
 
-export function WordCard({ word, onClick }: WordCardProps) {
+export function WordCard({ word, onClick, className }: WordCardProps) {
   const { speakWord } = useAudio();
   const { isWordLearned, markWordLearned } = useProgress();
   const learned = isWordLearned(word.word);
@@ -24,36 +25,39 @@ export function WordCard({ word, onClick }: WordCardProps) {
   };
 
   return (
-    <Card 
+    <div 
       className={cn(
-        "cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.02] bg-gradient-to-br from-white to-gray-50 w-full h-full flex flex-col min-h-0 min-w-0",
-        learned && "ring-1 ring-green-400 bg-gradient-to-br from-green-50 to-green-100"
+        "cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 w-full h-full flex flex-col min-h-0 min-w-0 rounded-2xl shadow-lg overflow-hidden",
+        className
       )}
       onClick={handleClick}
       style={{ 
         minHeight: '75px',
-        minWidth: '75px'
+        minWidth: '75px',
+        background: learned 
+          ? 'linear-gradient(135deg, #58CC02 0%, #45A102 100%)'
+          : 'linear-gradient(135deg, #1CB0F6 0%, #1899D6 100%)'
       }}
     >
-      <CardContent className="p-2 text-center relative h-full flex flex-col justify-center">
+      <div className="p-3 text-center relative h-full flex flex-col justify-center text-white">
         {learned && (
-          <div className="absolute top-0 right-0 text-sm">
+          <div className="absolute top-1 right-1 text-lg filter drop-shadow-sm">
             ⭐
           </div>
         )}
         
         <div className="flex flex-col justify-center items-center space-y-1">
-          <h3 className="font-bold text-gray-800 leading-tight text-center" style={{ fontSize: 'clamp(12px, 2.5vw, 16px)' }}>
+          <h3 className="font-bold leading-tight text-center filter drop-shadow-sm" style={{ fontSize: 'clamp(12px, 2.5vw, 16px)' }}>
             {word.word}
           </h3>
           <div 
-            className="text-gray-500 leading-tight text-center"
+            className="text-white/80 leading-tight text-center"
             style={{ fontSize: 'clamp(9px, 1.8vw, 12px)' }}
           >
             {word.pronunciation}
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

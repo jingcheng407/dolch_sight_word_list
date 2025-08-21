@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Container } from '@/components/layout/Container';
-import { Header } from '@/components/layout/Header';
-import { Navigation } from '@/components/layout/Navigation';
+import { DuolingoLayout } from '@/components/layout/DuolingoLayout';
 import { LearnTab } from '@/components/learning/LearnTab';
 import { PracticeTab } from '@/components/games/PracticeTab';
 import { QuizTab } from '@/components/quiz/QuizTab';
@@ -29,12 +27,8 @@ export default function Home() {
   };
 
   return (
-    <Container>
-      <Header />
-      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
-      <main className="flex-1 overflow-hidden">
-        {renderTabContent()}
-      </main>
-    </Container>
+    <DuolingoLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      {renderTabContent()}
+    </DuolingoLayout>
   );
 }

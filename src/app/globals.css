@@ -44,72 +44,86 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --radius: 0.75rem;
+  /* 多邻国主题色彩 */
+  --background: oklch(0.97 0.005 106); /* #F7F7F7 浅灰背景 */
+  --foreground: oklch(0.3 0.01 106); /* #4B4B4B 深灰文字 */
+  --card: oklch(1 0 0); /* 纯白卡片 */
+  --card-foreground: oklch(0.3 0.01 106);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.3 0.01 106);
+  --primary: oklch(0.65 0.15 130); /* #58CC02 多邻国绿色 */
+  --primary-foreground: oklch(1 0 0); /* 白色文字 */
+  --secondary: oklch(0.73 0.14 220); /* #1CB0F6 多邻国蓝色 */
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.95 0.005 106); /* 更浅的灰色 */
+  --muted-foreground: oklch(0.5 0.01 106);
+  --accent: oklch(0.73 0.14 220); /* 使用蓝色作为强调色 */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.6 0.2 15); /* 红色错误提示 */
+  --border: oklch(0.9 0.005 106);
+  --input: oklch(0.9 0.005 106);
+  --ring: oklch(0.65 0.15 130); /* 聚焦环使用主绿色 */
+  /* 多邻国特有颜色 */
+  --duolingo-green: oklch(0.65 0.15 130); /* #58CC02 */
+  --duolingo-blue: oklch(0.73 0.14 220); /* #1CB0F6 */
+  --duolingo-yellow: oklch(0.8 0.12 85); /* #FFC800 */
+  --duolingo-red: oklch(0.6 0.2 15); /* #FF4B4B */
+  --duolingo-purple: oklch(0.6 0.15 300); /* #CE82FF */
+  --chart-1: oklch(0.65 0.15 130);
+  --chart-2: oklch(0.73 0.14 220);
+  --chart-3: oklch(0.8 0.12 85);
+  --chart-4: oklch(0.6 0.2 15);
+  --chart-5: oklch(0.6 0.15 300);
+  --sidebar: oklch(1 0 0); /* 白色侧边栏 */
+  --sidebar-foreground: oklch(0.3 0.01 106);
+  --sidebar-primary: oklch(0.65 0.15 130);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0.005 106);
+  --sidebar-accent-foreground: oklch(0.3 0.01 106);
+  --sidebar-border: oklch(0.9 0.005 106);
+  --sidebar-ring: oklch(0.65 0.15 130);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* 暗色主题的多邻国配色 */
+  --background: oklch(0.15 0.01 106); /* 深灰背景 */
+  --foreground: oklch(0.9 0.01 106); /* 浅灰文字 */
+  --card: oklch(0.2 0.01 106); /* 深色卡片 */
+  --card-foreground: oklch(0.9 0.01 106);
+  --popover: oklch(0.2 0.01 106);
+  --popover-foreground: oklch(0.9 0.01 106);
+  --primary: oklch(0.65 0.15 130); /* 保持绿色 */
+  --primary-foreground: oklch(0.15 0.01 106); /* 深色文字 */
+  --secondary: oklch(0.73 0.14 220); /* 保持蓝色 */
+  --secondary-foreground: oklch(0.15 0.01 106);
+  --muted: oklch(0.25 0.01 106);
+  --muted-foreground: oklch(0.7 0.01 106);
+  --accent: oklch(0.73 0.14 220);
+  --accent-foreground: oklch(0.15 0.01 106);
+  --destructive: oklch(0.6 0.2 15);
+  --border: oklch(0.3 0.01 106);
+  --input: oklch(0.3 0.01 106);
+  --ring: oklch(0.65 0.15 130);
+  /* 保持多邻国特有颜色 */
+  --duolingo-green: oklch(0.65 0.15 130);
+  --duolingo-blue: oklch(0.73 0.14 220);
+  --duolingo-yellow: oklch(0.8 0.12 85);
+  --duolingo-red: oklch(0.6 0.2 15);
+  --duolingo-purple: oklch(0.6 0.15 300);
+  --chart-1: oklch(0.65 0.15 130);
+  --chart-2: oklch(0.73 0.14 220);
+  --chart-3: oklch(0.8 0.12 85);
+  --chart-4: oklch(0.6 0.2 15);
+  --chart-5: oklch(0.6 0.15 300);
+  --sidebar: oklch(0.2 0.01 106);
+  --sidebar-foreground: oklch(0.9 0.01 106);
+  --sidebar-primary: oklch(0.65 0.15 130);
+  --sidebar-primary-foreground: oklch(0.15 0.01 106);
+  --sidebar-accent: oklch(0.25 0.01 106);
+  --sidebar-accent-foreground: oklch(0.9 0.01 106);
+  --sidebar-border: oklch(0.3 0.01 106);
+  --sidebar-ring: oklch(0.65 0.15 130);
 }
 
 @layer base {
@@ -118,7 +132,6 @@
   }
   html, body {
     height: 100vh;
-    overflow: hidden;
     @apply bg-background text-foreground;
   }
   
@@ -172,5 +185,196 @@
   /* 确保卡片内容不会溢出 */
   [data-card] {
     contain: layout style size;
+  }
+}
+
+/* 多邻国特有样式 */
+@layer utilities {
+  /* 多邻国颜色工具类 */
+  .bg-duolingo-green {
+    background-color: oklch(0.65 0.15 130);
+  }
+  
+  .bg-duolingo-blue {
+    background-color: oklch(0.73 0.14 220);
+  }
+  
+  .bg-duolingo-yellow {
+    background-color: oklch(0.8 0.12 85);
+  }
+  
+  .bg-duolingo-red {
+    background-color: oklch(0.6 0.2 15);
+  }
+  
+  .bg-duolingo-purple {
+    background-color: oklch(0.6 0.15 300);
+  }
+  
+  .text-duolingo-green {
+    color: oklch(0.65 0.15 130);
+  }
+  
+  .text-duolingo-blue {
+    color: oklch(0.73 0.14 220);
+  }
+  
+  .text-duolingo-yellow {
+    color: oklch(0.8 0.12 85);
+  }
+  
+  .text-duolingo-red {
+    color: oklch(0.6 0.2 15);
+  }
+  
+  .text-duolingo-purple {
+    color: oklch(0.6 0.15 300);
+  }
+  
+  .border-duolingo-green {
+    border-color: oklch(0.65 0.15 130);
+  }
+  
+  .border-duolingo-blue {
+    border-color: oklch(0.73 0.14 220);
+  }
+  
+  /* 多邻国风格按钮 */
+  .btn-duolingo {
+    padding: 1.5rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.2s;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-duolingo:hover {
+    transform: scale(1.05);
+  }
+  
+  .btn-duolingo:active {
+    transform: scale(0.95);
+  }
+  
+  .btn-duolingo-primary {
+    background-color: oklch(0.65 0.15 130);
+    color: white;
+  }
+  
+  .btn-duolingo-primary:hover {
+    background-color: oklch(0.6 0.15 130);
+  }
+  
+  .btn-duolingo-secondary {
+    background-color: oklch(0.73 0.14 220);
+    color: white;
+  }
+  
+  .btn-duolingo-secondary:hover {
+    background-color: oklch(0.68 0.14 220);
+  }
+  
+  /* 多邻国风格卡片 */
+  .card-duolingo {
+    background-color: oklch(1 0 0);
+    border-radius: 1rem;
+    border: 1px solid oklch(0.9 0.005 106);
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+  }
+  
+  .card-duolingo:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* 多邻国风格头像/图标容器 */
+  .icon-duolingo {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom right, oklch(0.65 0.15 130), oklch(0.73 0.14 220));
+  }
+  
+  /* 多邻国风格进度条 */
+  .progress-duolingo {
+    height: 0.75rem;
+    background-color: oklch(0.95 0.005 106);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  
+  .progress-duolingo-fill {
+    height: 100%;
+    background: linear-gradient(to right, oklch(0.65 0.15 130), oklch(0.73 0.14 220));
+    transition: all 0.5s ease-out;
+  }
+  
+  /* 多邻国风格阴影 */
+  .shadow-duolingo {
+    box-shadow: 0 4px 14px 0 rgba(88, 204, 2, 0.15);
+  }
+  
+  /* 字体样式 */
+  .text-duolingo-heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: oklch(0.3 0.01 106);
+  }
+  
+  .text-duolingo-subheading {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: oklch(0.5 0.01 106);
+  }
+  
+  .text-duolingo-body {
+    font-size: 1rem;
+    color: oklch(0.3 0.01 106);
+  }
+  
+  /* 多邻国风格动画 */
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  
+  .animate-bounce-soft {
+    animation: bounce-soft 2s infinite;
+  }
+  
+  @keyframes pulse-green {
+    0%, 100% { 
+      background-color: oklch(0.65 0.15 130);
+      transform: scale(1);
+    }
+    50% { 
+      background-color: oklch(0.73 0.14 220);
+      transform: scale(1.05);
+    }
+  }
+  
+  .animate-pulse-green {
+    animation: pulse-green 2s infinite;
+  }
+  
+  /* 响应式字体大小 */
+  @media (max-width: 640px) {
+    .text-duolingo-heading {
+      font-size: 1.25rem;
+    }
+    
+    .text-duolingo-subheading {
+      font-size: 1rem;
+    }
+    
+    .btn-duolingo {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
   }
 }
